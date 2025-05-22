@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import css from './index.module.css';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '@/apis/userApi';
 
 export default function RegisterPage() {
   const [id, setId] = useState('');
@@ -11,6 +13,9 @@ export default function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [registerState, setRegisterState] = useState('');
+  const navigate = useNavigate();
 
   const validateId = value => {
     if (!value) {
@@ -61,6 +66,7 @@ export default function RegisterPage() {
     setPassword(value);
     validatePassword(value);
   };
+
   const handlePasswordOkChange = e => {
     const value = e.target.value;
     setPasswordOk(value);
@@ -69,13 +75,39 @@ export default function RegisterPage() {
 
   const register = async e => {
     e.preventDefault();
-    console.log('register');
+    console.log('회원가입', id, password, passwordOk);
+    validateId(id);
+    validatePassword(password);
+    validatePasswordCheck(passwordOk, password);
+
+    if (errId || errPassword || errPasswordOk || !id || !password || !passwordOk) {
+      return;
+    }
+
+    try {
+      setRegisterState('등록중');
+
+      const response = await registerUser({
+        id,
+        password,
+      });
+      console.log('회원가입 성공', response.data);
+
+      setRegisterState('등록완료');
+      navigate('/login');
+    } catch (err) {
+      setRegisterState('회원가입 실패');
+      if (err.response) {
+        console.log('오류 응답 데이터 --', err.response.data);
+      }
+    }
   };
 
   return (
     <main className={css.registerPage}>
       <div className={css.wrapper}>
         <h2>회원가입</h2>
+        {registerState && <strong>{registerState}</strong>}
         <form className={css.registerForm} onSubmit={register}>
           <div className={css.inputGroup}>
             <div className={css.inputWithIcon}>
