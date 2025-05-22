@@ -1,12 +1,23 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--color-border);
-  padding: 1rem 2rem;
+  padding: 1rem 0;
   color: var(--color-text);
-  background-color: transparent;
-  position: relative;
+  background-color: var(--color-white);
+}
+
+.headerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header h1 a {

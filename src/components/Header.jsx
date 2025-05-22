@@ -26,28 +26,30 @@ export default function Header() {
 
   return (
     <header className={css.header}>
-      <h1>
-        <Link to={'/'}>MERNLOG</Link>
-      </h1>
-      {isMobile ? (
-        <>
-          {!isMenuActive && <Hamburger toggleMenu={toggleMenu} />}
-          <nav className={`${css.gnbCon} ${isMenuActive ? css.active : ''}`}>
-            <div className={css.gnb}>
-              <button className={css.closeBtn} onClick={closeMenu}>
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-              <MenuLink to="/register" label="회원가입" closeMenu={closeMenu} />
-              <MenuLink to="/login" label="로그인" closeMenu={closeMenu} />
-            </div>
-          </nav>
-        </>
-      ) : (
-        <div className={css.desktopMenu}>
-          <MenuLink to="/register" label="회원가입" />
-          <MenuLink to="/login" label="로그인" />
-        </div>
-      )}
+      <div className={`container ${css.headerInner}`}>
+        <h1>
+          <Link to={'/'}>MERNLOG</Link>
+        </h1>
+        {isMobile ? (
+          <>
+            {!isMenuActive && <Hamburger toggleMenu={toggleMenu} />}
+            <nav className={`${css.gnbCon} ${isMenuActive ? css.active : ''}`}>
+              <div className={css.gnb}>
+                <button className={css.closeBtn} onClick={closeMenu}>
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <MenuLink to="/register" label="회원가입" closeMenu={closeMenu} />
+                <MenuLink to="/login" label="로그인" closeMenu={closeMenu} />
+              </div>
+            </nav>
+          </>
+        ) : (
+          <div className={css.desktopMenu}>
+            <MenuLink to="/register" label="회원가입" />
+            <MenuLink to="/login" label="로그인" />
+          </div>
+        )}
+      </div>
     </header>
   );
 }

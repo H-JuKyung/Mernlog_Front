@@ -1,15 +1,8 @@
 .defaultlayout {
   width: 100%;
   min-height: 100vh;
-  margin: 0 auto;
-  padding: 0 2rem;
   position: relative;
   box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .defaultlayout {
-    padding: 0;
-    margin: auto;
-  }
+  display: flex;
+  flex-direction: column;
 }

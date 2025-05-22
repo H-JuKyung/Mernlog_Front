@@ -65,11 +65,11 @@
   --fs-64: 4rem;
 
   /* ===== 컬러 ===== */
-  --color-primary: #a8c5ff;
-  --color-primary-light: #d2e3ff;
-  --color-primary-lighter: #eff5ff;
-  --color-primary-dark: #7daeff;
-  --color-primary-darker: #4f8bff;
+  --color-primary: #82aaff;
+  --color-primary-light: #b3cdff;
+  --color-primary-lighter: #e3eeff;
+  --color-primary-dark: #4e8dff;
+  --color-primary-darker: #2563eb;
 
   --color-text: #2f2f2f;
   --color-subtext: #757575;
@@ -93,16 +93,63 @@
   --gray-700: #5a5a5a;
   --gray-800: #3d3d3d;
   --gray-900: #1f1f1f;
+
+  --header-height: 71px;
 }
 
 html {
   font-size: 16px;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   font-family: var(--font-default);
   font-size: var(--fs-16);
   color: var(--color-text);
+}
+
+.container {
+  width: 100%;
+  max-width: 1507px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.main {
+  padding-top: calc(var(--header-height) + 2rem);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .main {
+    padding-top: calc(var(--header-height) + 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .main {
+    padding-top: calc(var(--header-height) + 0.5rem);
+  }
 }
 
 a {
