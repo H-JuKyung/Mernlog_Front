@@ -88,7 +88,7 @@
   background-color: var(--color-primary-darker);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .wrapper h2 {
     font-size: var(--fs-24);
   }
