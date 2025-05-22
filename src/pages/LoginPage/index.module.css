@@ -68,7 +68,6 @@
 .loginForm strong {
   font-size: 0.875rem;
   color: var(--color-error);
-  display: none;
 }
 
 .loginForm button {

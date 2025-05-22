@@ -36,7 +36,7 @@ export default function Header() {
             <nav className={`${css.gnbCon} ${isMenuActive ? css.active : ''}`}>
               <div className={css.gnb}>
                 <button className={css.closeBtn} onClick={closeMenu}>
-                  <i class="fa-solid fa-xmark"></i>
+                  <i className="fa-solid fa-xmark"></i>
                 </button>
                 <MenuLink to="/register" label="회원가입" closeMenu={closeMenu} />
                 <MenuLink to="/login" label="로그인" closeMenu={closeMenu} />
@@ -62,6 +62,6 @@ const MenuLink = ({ to, label, closeMenu }) => (
 
 const Hamburger = ({ toggleMenu }) => (
   <button className={css.hamburger} onClick={toggleMenu}>
-    <i class="fa-solid fa-bars"></i>
+    <i className="fa-solid fa-bars"></i>
   </button>
 );
