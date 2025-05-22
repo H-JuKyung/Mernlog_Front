@@ -1,0 +1,146 @@
+@charset "UTF-8";
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css');
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff')
+    format('woff');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff')
+    format('woff');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
+    format('woff');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff')
+    format('woff');
+  font-weight: 700;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* ===== 기본 폰트 설정 ===== */
+  --font-default: 'Pretendard', sans-serif;
+
+  /* ===== 폰트 굵기 ===== */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ===== 폰트 사이즈 ===== */
+  --fs-8: 0.5rem;
+  --fs-12: 0.75rem;
+  --fs-16: 1rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
+  --fs-32: 2rem;
+  --fs-36: 2.25rem;
+  --fs-40: 2.5rem;
+  --fs-44: 2.75rem;
+  --fs-48: 3rem;
+  --fs-60: 3.75rem;
+  --fs-64: 4rem;
+
+  /* ===== 컬러 ===== */
+  --color-primary: #a8c5ff;
+  --color-primary-light: #d2e3ff;
+  --color-primary-lighter: #eff5ff;
+  --color-primary-dark: #7daeff;
+  --color-primary-darker: #4f8bff;
+
+  --color-text: #2f2f2f;
+  --color-subtext: #757575;
+  --color-border: #e0e0e0;
+  --color-bg: #fafcff;
+  --color-white: #ffffff;
+
+  --color-success: #74d69e;
+  --color-error: #ff7b7b;
+  --color-warning: #ffe08a;
+  --color-info: #82d1ff;
+
+  --gray-0: #ffffff;
+  --gray-50: #f9f9f9;
+  --gray-100: #f0f0f0;
+  --gray-200: #e0e0e0;
+  --gray-300: #d1d1d1;
+  --gray-400: #bcbcbc;
+  --gray-500: #9e9e9e;
+  --gray-600: #757575;
+  --gray-700: #5a5a5a;
+  --gray-800: #3d3d3d;
+  --gray-900: #1f1f1f;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-default);
+  font-size: var(--fs-16);
+  color: var(--color-text);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 접근성 포커스 스타일 */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
