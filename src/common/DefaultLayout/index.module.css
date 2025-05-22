@@ -1,7 +1,15 @@
 .defaultlayout {
-  max-width: 600px;
-  height: 100vh;
-  margin: auto;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 2rem;
   position: relative;
-  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .defaultlayout {
+    padding: 0;
+    margin: auto;
+  }
 }
