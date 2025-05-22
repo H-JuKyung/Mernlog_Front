@@ -6,7 +6,7 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <main className={css.registerpage}>
+    <main className={css.registerPage}>
       <div className={css.wrapper}>
         <h2>회원가입</h2>
         <form className={css.registerForm}>
