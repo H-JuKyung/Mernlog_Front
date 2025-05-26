@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import DefaultLayout from '@/common/DefaultLayout';
 import RegisterPage from '@/pages/RegisterPage';
 import LoginPage from '@/pages/LoginPage';
+import CreatePostPage from '@/pages/CreatePostPage';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/createPost',
+        element: <CreatePostPage />,
       },
     ],
   },
