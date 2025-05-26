@@ -127,7 +127,11 @@ export default function Header() {
             {userId ? (
               <>
                 <MenuLink to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-                <MenuLink to="/mypage" label={`마이페이지(${userId})`} closeMenu={closeMenu} />
+                <MenuLink
+                  to="/userpage/${userId}"
+                  label={`마이페이지(${userId})`}
+                  closeMenu={closeMenu}
+                />
                 <button onClick={handleLogout}>로그아웃</button>
               </>
             ) : (

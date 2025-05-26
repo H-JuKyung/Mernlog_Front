@@ -24,7 +24,7 @@ export default function PostCard({ post }) {
 
       <div className={css.info}>
         <p>
-          <Link to={`/mypage/${post.author}`} onClick={handleAuthorClick} className={css.author}>
+          <Link to={`/userpage/${post.author}`} onClick={handleAuthorClick} className={css.author}>
             {post.author}
           </Link>
           <time className={css.date}>{formatDate(post.createdAt)}</time>

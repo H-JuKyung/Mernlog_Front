@@ -125,7 +125,9 @@ export default function Comments({ postId, onCommentCountChange }) {
     return (
       <li key={comment._id} className={css.list}>
         <div className={css.commnet}>
-          <p className={css.author}>{comment.author}</p>
+          <p className={css.author}>
+            <Link to={`/userpage/${comment.author}`}> {comment.author}</Link>
+          </p>
           <p className={css.date}>{formatDate(comment.createdAt)}</p>
 
           {isEditing ? (

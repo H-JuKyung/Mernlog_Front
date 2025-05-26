@@ -53,7 +53,9 @@ export default function PostDetailPage() {
           <h3>{postInfo?.title}</h3>
         </div>
         <div className={css.info}>
-          <p className={css.author}>{postInfo?.author}</p>
+          <p className={css.author}>
+            <Link to={`/userpage/${postInfo?.author}`}>{postInfo?.author}</Link>
+          </p>
           <p className={css.date}>{formatDate(postInfo?.updatedAt)}</p>
           <p>
             {postInfo && <LikeButton postId={postId} likes={postInfo.likes} />}{' '}

@@ -64,7 +64,9 @@ export default function UserPage() {
           </p>
           {isCurrentUser && (
             <div className={css.editButton}>
-              <Link to={``}>내 정보 수정</Link>
+              <Link to={`/update-profile`} className={css.editButton}>
+                내 정보 수정
+              </Link>
             </div>
           )}
         </div>
