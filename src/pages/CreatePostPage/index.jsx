@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import QuillEditor from '@/components/QuillEditor';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { createPost } from '@/apis/PostApi';
+import { createPost } from '@/apis/postApi';
 
 export default function CreatePostPage() {
   const navigate = useNavigate();

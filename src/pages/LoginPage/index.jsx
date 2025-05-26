@@ -2,7 +2,6 @@ import css from './index.module.css';
 import { useState, useEffect } from 'react';
 import { loginUser } from '@/apis/userApi';
 import { useNavigate } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/userSlice';
 
