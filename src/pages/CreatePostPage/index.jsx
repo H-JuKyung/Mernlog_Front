@@ -17,7 +17,7 @@ export default function CreatePostPage() {
   const user = useSelector(state => state.user.user);
   // 사용자 정보가 없으면 로그인 페이지로 리디렉션
   useEffect(() => {
-    if (!user || !user.id) {
+    if (!user || !user.userId) {
       navigate('/login');
     }
   }, [user, navigate]);
@@ -61,6 +61,7 @@ export default function CreatePostPage() {
       setError('');
     }
   };
+
   return (
     <main className={css.createpost}>
       <h2>글쓰기</h2>

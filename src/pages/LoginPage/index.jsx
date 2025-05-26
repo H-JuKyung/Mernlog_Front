@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/userSlice';
 
 export default function LoginPage() {
-  const [id, setId] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  const [errId, setErrId] = useState('');
+  const [errUserId, setErrUserId] = useState('');
   const [errPassword, setErrPassword] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
@@ -20,15 +20,15 @@ export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const validateId = value => {
+  const validateUserId = value => {
     if (!value) {
-      setErrId('');
+      setErrUserId('');
       return;
     }
     if (!/^[a-zA-Z0-9]{4,}$/.test(value)) {
-      setErrId('4자 이상의 영문자 또는 숫자를 입력해주세요.');
+      setErrUserId('4자 이상의 영문자 또는 숫자를 입력해주세요.');
     } else {
-      setErrId('');
+      setErrUserId('');
     }
   };
 
@@ -45,10 +45,10 @@ export default function LoginPage() {
     }
   };
 
-  const handleIdChange = e => {
+  const handleUserIdChange = e => {
     const value = e.target.value;
-    setId(value);
-    validateId(value);
+    setUserId(value);
+    validateUserId(value);
   };
 
   const handlePasswordChange = e => {
@@ -60,15 +60,15 @@ export default function LoginPage() {
   const login = async e => {
     e.preventDefault();
     setLoginStatus('');
-    validateId(id);
+    validateUserId(userId);
     validatePassword(password);
 
-    if (errId || errPassword || !id || !password) {
+    if (errUserId || errPassword || !userId || !password) {
       setLoginStatus('아이디와 패스워드를 확인하세요.');
       return;
     }
     try {
-      const userData = await loginUser({ id, password });
+      const userData = await loginUser({ userId, password });
 
       if (userData) {
         setLoginStatus('로그인 성공');
@@ -103,9 +103,14 @@ export default function LoginPage() {
         <form className={css.loginForm} onSubmit={login}>
           <div className={css.inputGroup}>
             <div className={css.inputWithIcon}>
-              <input type="text" placeholder="아이디" value={id} onChange={handleIdChange} />
+              <input
+                type="text"
+                placeholder="아이디"
+                value={userId}
+                onChange={handleUserIdChange}
+              />
             </div>
-            <strong>{errId}</strong>
+            <strong>{errUserId}</strong>
           </div>
 
           <div className={css.inputGroup}>

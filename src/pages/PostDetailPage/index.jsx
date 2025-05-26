@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import LikeButton from '@/components/LikeButton';
 
 export default function PostDetailPage() {
-  const id = useSelector(state => state.user.user.id);
+  const userId = useSelector(state => state.user.user.userId);
   const { postId } = useParams();
   const [postInfo, setPostInfo] = useState();
 
@@ -60,7 +60,7 @@ export default function PostDetailPage() {
 
       <section className={css.btns}>
         {/* 로그인한 사용자만 글을 수정, 삭제할 수 있습니다. */}
-        {id === postInfo?.author && (
+        {userId === postInfo?.author && (
           <>
             <Link to={`/edit/${postId}`}>수정</Link>
             <span onClick={handleDeletePost}>삭제</span>

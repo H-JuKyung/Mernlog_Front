@@ -11,8 +11,8 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
-  const id = user?.id;
-  console.log(id);
+  const userId = user?.userId;
+  console.log(userId);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -107,10 +107,10 @@ export default function Header() {
                 <button className={css.closeBtn} onClick={closeMenu}>
                   <i className="fa-solid fa-xmark"></i>
                 </button>
-                {id ? (
+                {userId ? (
                   <>
                     <MenuLink to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-                    <MenuLink to="/mypage" label={`마이페이지(${id})`} closeMenu={closeMenu} />
+                    <MenuLink to="/mypage" label={`마이페이지(${userId})`} closeMenu={closeMenu} />
                     <button onClick={handleLogout}>로그아웃</button>
                   </>
                 ) : (
@@ -124,10 +124,10 @@ export default function Header() {
           </>
         ) : (
           <div className={css.desktopMenu}>
-            {id ? (
+            {userId ? (
               <>
                 <MenuLink to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-                <MenuLink to="/mypage" label={`마이페이지(${id})`} closeMenu={closeMenu} />
+                <MenuLink to="/mypage" label={`마이페이지(${userId})`} closeMenu={closeMenu} />
                 <button onClick={handleLogout}>로그아웃</button>
               </>
             ) : (

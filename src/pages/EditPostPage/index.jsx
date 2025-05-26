@@ -22,7 +22,7 @@ export default function EditPostPage() {
 
   // 사용자 정보가 없으면 로그인 페이지로 리디렉션
   useEffect(() => {
-    if (!user || !user.id) {
+    if (!user || !user.userId) {
       navigate('/login');
     }
   }, [user, navigate]);
@@ -35,7 +35,7 @@ export default function EditPostPage() {
         const postData = await getPostDetail(postId);
 
         // 현재 사용자와 글 작성자가 다르면 접근 제한
-        if (postData.author !== user?.id) {
+        if (postData.author !== user?.userId) {
           setError('자신의 글만 수정할 수 있습니다');
           navigate('/'); // 메인 페이지로 리다이렉트
           return;
@@ -58,10 +58,10 @@ export default function EditPostPage() {
       }
     };
 
-    if (user?.id) {
+    if (user?.userId) {
       fetchPost();
     }
-  }, [postId, user?.id, navigate]);
+  }, [postId, user?.userId, navigate]);
 
   // 에디터 내용 변경 핸들러
   const handleContentChange = content => {

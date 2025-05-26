@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { registerUser } from '@/apis/userApi';
 
 export default function RegisterPage() {
-  const [id, setId] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordOk, setPasswordOk] = useState('');
-  const [errId, setErrId] = useState('');
+  const [errUserId, setErrUserId] = useState('');
   const [errPassword, setErrPassword] = useState('');
   const [errPasswordOk, setErrPasswordOk] = useState('');
 
@@ -17,15 +17,15 @@ export default function RegisterPage() {
   const [registerState, setRegisterState] = useState('');
   const navigate = useNavigate();
 
-  const validateId = value => {
+  const validateUserId = value => {
     if (!value) {
-      setErrId('');
+      setErrUserId('');
       return;
     }
     if (!/^[a-zA-Z0-9]{4,}$/.test(value)) {
-      setErrId('4자 이상의 영문자 또는 숫자를 입력해주세요.');
+      setErrUserId('4자 이상의 영문자 또는 숫자를 입력해주세요.');
     } else {
-      setErrId('');
+      setErrUserId('');
     }
   };
 
@@ -55,10 +55,10 @@ export default function RegisterPage() {
     }
   };
 
-  const handleIdChange = e => {
+  const handleUserIdChange = e => {
     const value = e.target.value;
-    setId(value);
-    validateId(value);
+    setUserId(value);
+    validateUserId(value);
   };
 
   const handlePasswordChange = e => {
@@ -75,12 +75,12 @@ export default function RegisterPage() {
 
   const register = async e => {
     e.preventDefault();
-    console.log('회원가입', id, password, passwordOk);
-    validateId(id);
+    console.log('회원가입', userId, password, passwordOk);
+    validateUserId(userId);
     validatePassword(password);
     validatePasswordCheck(passwordOk, password);
 
-    if (errId || errPassword || errPasswordOk || !id || !password || !passwordOk) {
+    if (errUserId || errPassword || errPasswordOk || !userId || !password || !passwordOk) {
       return;
     }
 
@@ -88,7 +88,7 @@ export default function RegisterPage() {
       setRegisterState('등록중');
 
       const response = await registerUser({
-        id,
+        userId,
         password,
       });
       console.log('회원가입 성공', response.data);
@@ -111,9 +111,14 @@ export default function RegisterPage() {
         <form className={css.registerForm} onSubmit={register}>
           <div className={css.inputGroup}>
             <div className={css.inputWithIcon}>
-              <input type="text" placeholder="아이디" value={id} onChange={handleIdChange} />
+              <input
+                type="text"
+                placeholder="아이디"
+                value={userId}
+                onChange={handleUserIdChange}
+              />
             </div>
-            <strong>{errId}</strong>
+            <strong>{errUserId}</strong>
           </div>
 
           <div className={css.inputGroup}>

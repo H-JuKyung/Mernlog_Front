@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 export default function LikeButton({ postId, likes, className = '' }) {
   const navigate = useNavigate();
   const user = useSelector(state => state.user.user);
-  const userId = user?.id; // 현재 로그인한 사용자의 ID
+  const userId = user?.userId; // 현재 로그인한 사용자의 ID
 
   // 초기 상태를 설정할 때 로그인한 사용자가 이미 좋아요를 눌렀는지 확인
   const [isLiked, setIsLiked] = useState(false);
