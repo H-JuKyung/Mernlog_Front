@@ -2,6 +2,7 @@ import css from './index.module.css';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import PostCard from '@/components/PostCard';
 import { getPostList } from '@/apis/postApi';
+import { useSelector } from 'react-redux';
 
 export default function PostListPage() {
   const [postList, setPostList] = useState([]);
@@ -13,6 +14,9 @@ export default function PostListPage() {
   const [hasMore, setHasMore] = useState(true);
   const listRef = useRef(null);
   const observer = useRef();
+
+  const user = useSelector(state => state.user.user); // ✅ Redux user 상태 구독
+  const userId = user?.userId; // 변경 감지 기준
 
   // 마지막 게시물 요소를 감지하는 ref 콜백
   const lastPostElementRef = useCallback(
@@ -31,25 +35,35 @@ export default function PostListPage() {
     [isLoading, hasMore]
   );
 
-  useEffect(() => {
-    const fetchPostList = async () => {
-      try {
-        // 페이지가 0보다 크면 추가 데이터 로딩
-        if (page > 0) setIsLoading(true);
-        // 수정된 페이지 정보 전달
-        const data = await getPostList(page);
-        //
-        setPostList(prev => (page === 0 ? data.posts : [...prev, ...data.posts]));
-        setHasMore(data.hasMore);
-      } catch (error) {
-        console.error('목록조회 실패:', error);
-        setError('글 목록을 불러오는데 실패했습니다.');
-      } finally {
-        setIsLoading(false);
+  // 글 목록 로딩 함수
+  const fetchPostList = async (pageNum = 0, reset = false) => {
+    try {
+      if (pageNum > 0 && !reset) setIsLoading(true);
+      const data = await getPostList(pageNum);
+      if (reset) {
+        setPostList(data.posts);
+        setPage(1); // 초기화 후 페이지 1로 설정
+      } else {
+        setPostList(prev => (pageNum === 0 ? data.posts : [...prev, ...data.posts]));
       }
-    };
-    fetchPostList();
+      setHasMore(data.hasMore);
+    } catch (error) {
+      console.error('목록조회 실패:', error);
+      setError('글 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 초기 로딩 및 페이지네이션 로딩
+  useEffect(() => {
+    fetchPostList(page);
   }, [page]);
+
+  // 🔥 Redux userId 변경 시 초기화
+  useEffect(() => {
+    fetchPostList(0, true);
+  }, [userId]);
 
   return (
     <main className={css.postlistpage}>
@@ -60,7 +74,6 @@ export default function PostListPage() {
       ) : postList.length === 0 ? (
         <p className={css.noPostMessage}>첫번째 글의 주인공이 되어주세요</p>
       ) : (
-        // ref
         <ul className={css.postList} ref={listRef}>
           {postList.map((post, i) => (
             <li key={post._id} ref={i === postList.length - 1 ? lastPostElementRef : null}>

@@ -58,7 +58,13 @@ export default function PostDetailPage() {
           </p>
           <p className={css.date}>{formatDate(postInfo?.updatedAt)}</p>
           <p>
-            {postInfo && <LikeButton postId={postId} likes={postInfo.likes} />}{' '}
+            {postInfo && (
+              <LikeButton
+                postId={postId}
+                initialIsLiked={postInfo.isLiked}
+                initialLikesCount={postInfo.likesCount}
+              />
+            )}{' '}
             <span style={{ marginLeft: '10px' }}>💬 {commentCount}</span>
           </p>
         </div>

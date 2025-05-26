@@ -30,7 +30,11 @@ export default function PostCard({ post }) {
           <time className={css.date}>{formatDate(post.createdAt)}</time>
         </p>
         <p>
-          <LikeButton postId={post._id} likes={post.likes} />
+          <LikeButton
+            postId={post._id}
+            initialIsLiked={post.isLiked}
+            initialLikesCount={post.likesCount}
+          />
           <span>💬</span> <span>{post.commentCount || 0}</span>
         </p>
       </div>
