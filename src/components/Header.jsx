@@ -1,6 +1,6 @@
 import css from './header.module.css';
 import { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfo } from '@/store/userSlice';
 import { getUserProfile, logoutUser } from '@/apis/userApi';
@@ -14,6 +14,7 @@ export default function Header() {
   const userId = user?.userId;
   console.log(userId);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,6 +49,7 @@ export default function Header() {
       await logoutUser();
       dispatch(setUserInfo(''));
       setIsMenuActive(false);
+      navigate('/', { replace: true });
     } catch (err) {
       console.log('프로필 조회 실패:', err);
       // 401 에러는 로그인 필요 상태이므로 정상 처리
