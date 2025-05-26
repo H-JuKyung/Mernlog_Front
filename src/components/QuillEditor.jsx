@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import './QuillEditor.css';
 
-const QuillEditor = ({ value, onChange, placeholder }) => {
+export default function QuillEditor({ value, onChange, placeholder }) {
   const quillRef = useRef(null);
 
   // Quill 에디터 모듈 설정
@@ -31,6 +31,4 @@ const QuillEditor = ({ value, onChange, placeholder }) => {
       />
     </div>
   );
-};
-
-export default QuillEditor;
+}
