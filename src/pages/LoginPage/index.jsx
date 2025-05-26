@@ -1,5 +1,10 @@
-import { useState } from 'react';
 import css from './index.module.css';
+import { useState, useEffect } from 'react';
+import { loginUser } from '@/apis/userApi';
+import { useNavigate } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '@/store/userSlice';
 
 export default function LoginPage() {
   const [id, setId] = useState('');
@@ -8,6 +13,12 @@ export default function LoginPage() {
   const [errPassword, setErrPassword] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [loginStatus, setLoginStatus] = useState(''); // 로그인 상태
+  const [redirect, setRedirect] = useState(false); // 로그인 상태 메시지
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validateId = value => {
     if (!value) {
@@ -48,13 +59,47 @@ export default function LoginPage() {
 
   const login = async e => {
     e.preventDefault();
-    console.log('로그인');
+    setLoginStatus('');
+    validateId(id);
+    validatePassword(password);
+
+    if (errId || errPassword || !id || !password) {
+      setLoginStatus('아이디와 패스워드를 확인하세요.');
+      return;
+    }
+    try {
+      const userData = await loginUser({ id, password });
+
+      if (userData) {
+        setLoginStatus('로그인 성공');
+
+        dispatch(setUserInfo(userData));
+
+        setTimeout(() => {
+          setRedirect(true);
+        }, 500);
+      } else {
+        setLoginStatus('사용자가 없습니다');
+      }
+    } catch (err) {
+      console.error('로그인 오류---', err);
+      return;
+    } finally {
+      setLoginStatus(false);
+    }
   };
+
+  useEffect(() => {
+    if (redirect) {
+      navigate('/');
+    }
+  }, [redirect, navigate]);
 
   return (
     <main className={css.loginPage}>
       <div className={css.wrapper}>
         <h2>로그인</h2>
+        {loginStatus && <strong>{loginStatus}</strong>}
         <form className={css.loginForm} onSubmit={login}>
           <div className={css.inputGroup}>
             <div className={css.inputWithIcon}>
