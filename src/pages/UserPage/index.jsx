@@ -100,9 +100,18 @@ export default function UserPage() {
           </p>
           {isCurrentUser && (
             <div className={css.editButton}>
-              <Link to={`/update-profile`} className={css.editButton}>
+              <button
+                onClick={() => {
+                  if (userData?.kakaoId) {
+                    alert('카카오 로그인 사용자는 비밀번호를 수정할 수 없습니다.');
+                    return;
+                  }
+                  navigate(`/update-profile`);
+                }}
+                className={css.editButton}
+              >
                 내 정보 수정
-              </Link>
+              </button>
               <button
                 onClick={handleDeleteAccount}
                 className={css.deleteButton}
