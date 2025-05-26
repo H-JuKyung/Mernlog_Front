@@ -4,13 +4,11 @@ import { Link, useParams } from 'react-router-dom';
 import { getPostDetail, deletePost } from '@/apis/postApi';
 import { formatDate } from '@/utils/features';
 import { useSelector } from 'react-redux';
+import LikeButton from '@/components/LikeButton';
 
 export default function PostDetailPage() {
-  const { postId } = useParams();
-  console.log(postId);
-
   const id = useSelector(state => state.user.user.id);
-
+  const { postId } = useParams();
   const [postInfo, setPostInfo] = useState();
 
   useEffect(() => {
@@ -50,9 +48,7 @@ export default function PostDetailPage() {
         <div className={css.info}>
           <p className={css.author}>{postInfo?.author}</p>
           <p className={css.date}>{formatDate(postInfo?.updatedAt)}</p>
-          <p>
-            <span>❤️</span> <span>30</span>
-          </p>
+          <p>{postInfo && <LikeButton postId={postId} likes={postInfo.likes} />}</p>
         </div>
         <div className={css.summary}>{postInfo?.summary}</div>
         {/* Quill 에디터로 작성된 HTML 콘텐츠를 렌더링 */}

@@ -2,12 +2,17 @@ import css from './postcard.module.css';
 import { Link } from 'react-router-dom';
 import { formatDate } from '@/utils/features';
 import { useNavigate } from 'react-router-dom';
+import LikeButton from './LikeButton';
 
 export default function PostCard({ post }) {
   const navigate = useNavigate();
 
   const goDetail = () => {
     navigate(`/detail/${post._id}`);
+  };
+
+  const handleAuthorClick = e => {
+    e.stopPropagation();
   };
 
   return (
@@ -19,13 +24,14 @@ export default function PostCard({ post }) {
 
       <div className={css.info}>
         <p>
-          <Link to={`/mypage`} className={css.author}>
+          <Link to={`/mypage/${post.author}`} onClick={handleAuthorClick} className={css.author}>
             {post.author}
           </Link>
           <time className={css.date}>{formatDate(post.createdAt)}</time>
         </p>
         <p>
-          <span>❤️</span> <span>30</span> <span>💬</span> <span>30</span>
+          <LikeButton postId={post._id} likes={post.likes} />
+          <span>💬</span> <span>30</span>
         </p>
       </div>
       <p className={css.dec}>{post.summary}</p>

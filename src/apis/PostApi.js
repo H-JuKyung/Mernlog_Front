@@ -33,3 +33,9 @@ export const updatePost = async (postId, postData) => {
   const response = await axios.put(`${API_URL}/post/${postId}`, postData);
   return response.data;
 };
+
+// 글 좋아요 API
+export const toggleLike = async postId => {
+  const response = await axios.post(`${API_URL}/like/${postId}`);
+  return response.data;
+};
