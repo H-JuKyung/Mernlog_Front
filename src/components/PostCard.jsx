@@ -31,7 +31,7 @@ export default function PostCard({ post }) {
         </p>
         <p>
           <LikeButton postId={post._id} likes={post.likes} />
-          <span>💬</span> <span>30</span>
+          <span>💬</span> <span>{post.commentCount || 0}</span>
         </p>
       </div>
       <p className={css.dec}>{post.summary}</p>

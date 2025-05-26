@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { createComment, getComments, deleteComment, updateComment } from '@/apis/commentApi';
 import { formatDate } from '@/utils/features';
 
-export default function Comments({ postId }) {
+export default function Comments({ postId, onCommentCountChange }) {
   const userInfo = useSelector(state => state.user.user);
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -16,11 +16,14 @@ export default function Comments({ postId }) {
     try {
       const response = await getComments(postId);
       setComments(response);
+      if (onCommentCountChange) {
+        onCommentCountChange(response.length);
+      }
     } catch (error) {
       console.error('댓글 목록 조회 실패:', error);
       alert('댓글 목록 조회에 실패했습니다.');
     }
-  }, [postId]);
+  }, [postId, onCommentCountChange]);
 
   useEffect(() => {
     fetchComments();
@@ -44,8 +47,13 @@ export default function Comments({ postId }) {
       };
 
       const response = await createComment(commentData);
-      setComments(prevComments => [response, ...prevComments]);
+      const updatedComments = [response, ...comments];
+      setComments(updatedComments);
       setNewComment('');
+
+      if (onCommentCountChange) {
+        onCommentCountChange(updatedComments.length);
+      }
     } catch (error) {
       console.error('댓글 등록 실패:', error);
       alert('댓글 등록에 실패했습니다.');
@@ -61,7 +69,12 @@ export default function Comments({ postId }) {
     try {
       setIsLoading(true);
       await deleteComment(commentId);
-      setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+      const updatedComments = comments.filter(comment => comment._id !== commentId);
+      setComments(updatedComments);
+
+      if (onCommentCountChange) {
+        onCommentCountChange(updatedComments.length);
+      }
     } catch (error) {
       console.error('댓글 삭제 실패:', error);
       alert('댓글 삭제에 실패했습니다.');
