@@ -1,10 +1,17 @@
 import css from './postcard.module.css';
 import { Link } from 'react-router-dom';
 import { formatDate } from '@/utils/features';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostCard({ post }) {
+  const navigate = useNavigate();
+
+  const goDetail = () => {
+    navigate(`/detail/${post._id}`);
+  };
+
   return (
-    <article className={css.postcard}>
+    <article className={css.postcard} onClick={goDetail}>
       <div className={css.post_img}>
         <img src={`${import.meta.env.VITE_BACK_URL}/${post.cover}`} alt={post.title} />
       </div>
