@@ -1,9 +1,16 @@
 import css from './index.module.css';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getUserInfo, getUserPosts, getUserComments, getUserLikes } from '@/apis/userApi';
+import {
+  getUserInfo,
+  getUserPosts,
+  getUserComments,
+  getUserLikes,
+  deleteAccount,
+} from '@/apis/userApi';
+import { setUserInfo } from '@/store/userSlice';
 import { formatDate } from '@/utils/features';
 
 export default function UserPage() {
@@ -15,9 +22,13 @@ export default function UserPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [isDeleting, setIsDeleting] = useState(false);
   // 현재 로그인한 사용자 정보
   const currentUser = useSelector(state => state.user.user);
   const isCurrentUser = currentUser && currentUser.userId === userId;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -45,6 +56,31 @@ export default function UserPage() {
     fetchUserData();
   }, [userId]);
 
+  // 회원 탈퇴 처리 함수
+  const handleDeleteAccount = async () => {
+    // 확인 대화상자 표시
+    const confirmed = window.confirm(
+      '정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없으며, 모든 계정 정보가 삭제됩니다.'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setIsDeleting(true);
+      await deleteAccount();
+
+      // Redux 상태 초기화
+      dispatch(setUserInfo(''));
+
+      alert('회원 탈퇴가 완료되었습니다.');
+      navigate('/', { replace: true });
+    } catch (err) {
+      console.error('회원 탈퇴 실패:', err);
+      alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
+      setIsDeleting(false);
+    }
+  };
+
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
   if (!userData) return <div>사용자를 찾을 수 없습니다.</div>;
@@ -67,6 +103,13 @@ export default function UserPage() {
               <Link to={`/update-profile`} className={css.editButton}>
                 내 정보 수정
               </Link>
+              <button
+                onClick={handleDeleteAccount}
+                className={css.deleteButton}
+                disabled={isDeleting}
+              >
+                {isDeleting ? '처리 중...' : '회원 탈퇴'}
+              </button>
             </div>
           )}
         </div>

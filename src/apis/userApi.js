@@ -82,3 +82,14 @@ export const updateUserInfo = async userData => {
     throw err;
   }
 };
+
+// 회원 탈퇴
+export const deleteAccount = async () => {
+  try {
+    const response = await axios.delete(`${API_URL}/auth/delete-account`);
+    return response.data;
+  } catch (err) {
+    console.error('회원 탈퇴 실패:', err);
+    throw err;
+  }
+};
