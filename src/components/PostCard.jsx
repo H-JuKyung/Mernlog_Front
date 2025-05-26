@@ -1,30 +1,27 @@
 import css from './postcard.module.css';
 import { Link } from 'react-router-dom';
+import { formatDate } from '@/utils/features';
 
-export default function PostCard() {
+export default function PostCard({ post }) {
   return (
     <article className={css.postcard}>
       <div className={css.post_img}>
-        <img src="https://picsum.photos/600/300" alt="" />
+        <img src={`${import.meta.env.VITE_BACK_URL}/${post.cover}`} alt={post.title} />
       </div>
-      <h3 className={css.title}>포스트제목이 들어갑니다.</h3>
+      <h3 className={css.title}>{post.title}</h3>
 
       <div className={css.info}>
         <p>
           <Link to={`/mypage`} className={css.author}>
-            somy
+            {post.author}
           </Link>
-          <time className={css.date}>2025.05.05</time>
+          <time className={css.date}>{formatDate(post.createdAt)}</time>
         </p>
         <p>
           <span>❤️</span> <span>30</span> <span>💬</span> <span>30</span>
         </p>
       </div>
-      <p className={css.dec}>
-        요약 내용이 들어갑니다. 내용이 길 ~~~ 수 있어요. 요약 내용이 들어갑니다. 내용이 길 ~~~ 수
-        있어요. 요약 내용이 들어갑니다. 내용이 길 ~~~ 수 있어요. 요약 내용이 들어갑니다. 내용이 길
-        ~~~ 수 있어요. 요약 내용이 들어갑니다. 내용이 길 ~~~ 수 있어요
-      </p>
+      <p className={css.dec}>{post.summary}</p>
     </article>
   );
 }
