@@ -26,3 +26,48 @@ export const getUserProfile = async () => {
     throw err;
   }
 };
+
+/* 사용자 페이지 관련 API */
+// 특정 사용자 정보 조회
+export const getUserInfo = async userId => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${userId}`);
+    return response.data;
+  } catch (err) {
+    console.error('사용자 정보 조회 실패:', err);
+    throw err;
+  }
+};
+
+// 특정 사용자가 작성한 글 조회
+export const getUserPosts = async userId => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${userId}/posts`);
+    return response.data;
+  } catch (err) {
+    console.error('사용자 게시물 조회 실패:', err);
+    throw err;
+  }
+};
+
+// 특정 사용자가 작성한 댓글 조회
+export const getUserComments = async userId => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${userId}/comments`);
+    return response.data;
+  } catch (err) {
+    console.error('사용자 댓글 조회 실패:', err);
+    throw err;
+  }
+};
+
+// 특정 사용자가 좋아요 클릭한 글 조회
+export const getUserLikes = async userId => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${userId}/likes`);
+    return response.data;
+  } catch (err) {
+    console.error('사용자 좋아요 게시물 조회 실패:', err);
+    throw err;
+  }
+};
