@@ -2,6 +2,7 @@ import { useState } from 'react';
 import css from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '@/apis/userApi';
+import KakaoLoginButton from '@/components/KakaoLoginButton';
 
 export default function RegisterPage() {
   const [userId, setUserId] = useState('');
@@ -154,6 +155,11 @@ export default function RegisterPage() {
           </div>
 
           <button type="submit">가입하기</button>
+
+          <div className={css.socialLogin}>
+            <p>소셜 계정으로 간편하게 가입하기</p>
+            <KakaoLoginButton />
+          </div>
         </form>
       </div>
     </main>

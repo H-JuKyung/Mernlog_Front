@@ -4,6 +4,7 @@ import { loginUser } from '@/apis/userApi';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/userSlice';
+import KakaoLoginButton from '@/components/KakaoLoginButton';
 
 export default function LoginPage() {
   const [userId, setUserId] = useState('');
@@ -129,6 +130,11 @@ export default function LoginPage() {
           </div>
 
           <button type="submit">로그인</button>
+
+          <div className={css.socialLogin}>
+            <p>소셜 계정으로 로그인</p>
+            <KakaoLoginButton />
+          </div>
         </form>
       </div>
     </main>
