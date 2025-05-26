@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import QuillEditor from '@/components/QuillEditor';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { createPost } from '@/apis/PostApi';
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
@@ -27,9 +28,6 @@ export default function CreatePostPage() {
 
   const handleCreatePost = async e => {
     e.preventDefault();
-    console.log('제출');
-    // console.log(title, summary, content)
-    console.log(files); // 배열 정보 확인
 
     setIsSubmitting(true);
     setError('');
@@ -51,6 +49,7 @@ export default function CreatePostPage() {
     }
 
     try {
+      await createPost(data);
       console.log('등록성공');
 
       setIsSubmitting(false);
