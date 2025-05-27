@@ -43,13 +43,18 @@
   align-items: center;
 }
 
-.inputWithIcon input {
+.inputWithIcon input,
+.loginForm button {
   width: 100%;
-  padding: 1rem 3rem 1rem 1rem;
+  padding: 1rem;
   font-size: var(--fs-16);
-  border: 1px solid var(--color-border);
   border-radius: var(--fs-8);
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+}
+
+.inputWithIcon input {
+  padding-right: 3rem;
+  border: 1px solid var(--color-border);
 }
 
 .inputWithIcon input:focus {
@@ -80,22 +85,36 @@
 
 .loginForm button {
   margin-top: 1rem;
-  padding: 1rem;
   background-color: var(--color-primary-dark);
   color: var(--color-white);
   font-weight: bold;
-  font-size: var(--fs-16);
   border: none;
-  border-radius: var(--fs-8);
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .loginForm button:hover {
   background-color: var(--color-primary-darker);
 }
 
+.socialLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+}
+
+.socialLogin p {
+  margin-bottom: 0.5rem;
+}
+
 @media (max-width: 480px) {
+  .loginPage {
+    padding-top: 2vh;
+  }
+
   .wrapper h2 {
     font-size: var(--fs-24);
   }
