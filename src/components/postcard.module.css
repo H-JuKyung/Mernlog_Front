@@ -10,6 +10,8 @@
   display: flex;
   flex-direction: column;
   color: var(--color-text);
+  width: 100%;
+  max-width: 400px;
 }
 
 .postcard:hover {
@@ -95,4 +97,87 @@
 
 .actions i {
   color: var(--color-primary-darker);
+}
+
+/* 스켈레톤 */
+.skeletonCard {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--color-white);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background-color: #e0e0e0;
+  background-image: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 1000px 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 0.3rem;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 220px;
+}
+
+.skeletonContent {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeletonTitle {
+  width: 60%;
+  height: 20px;
+}
+
+.skeletonDescription {
+  width: 100%;
+  height: 16px;
+}
+
+.skeletonInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.skeletonMeta {
+  width: 30%;
+  height: 16px;
+}
+
+.skeletonActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.skeletonAction {
+  width: 35px;
+  height: 16px;
+  border-radius: 0.3rem;
+  background-color: #e0e0e0;
+  background-image: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 1000px 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.5s infinite linear;
 }
