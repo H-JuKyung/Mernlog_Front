@@ -1,3 +1,4 @@
+import css from './likeButton.module.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toggleLike } from '@/apis/postApi';
@@ -5,7 +6,6 @@ import { toggleLike } from '@/apis/postApi';
 export default function LikeButton({ postId, initialIsLiked, initialLikesCount, className = '' }) {
   const navigate = useNavigate();
 
-  // 초기 상태를 props로 받아옴 (isLiked, likesCount)
   const [isLiked, setIsLiked] = useState(initialIsLiked || false);
   const [likesCount, setLikesCount] = useState(initialLikesCount || 0);
 
@@ -30,11 +30,12 @@ export default function LikeButton({ postId, initialIsLiked, initialLikesCount, 
   };
 
   return (
-    <span className={className}>
-      <span onClick={handleLikeToggle} style={{ cursor: 'pointer' }}>
-        {isLiked ? '❤️' : '🤍'}
-      </span>
-      <span> {likesCount}</span>
+    <span className={`${css.likeButton} ${className}`} onClick={handleLikeToggle}>
+      <i
+        className={`fa${isLiked ? 's' : 'r'} fa-heart`}
+        style={{ color: isLiked ? 'var(--color-primary-darker)' : 'inherit' }}
+      ></i>
+      <span>{likesCount}</span>
     </span>
   );
 }

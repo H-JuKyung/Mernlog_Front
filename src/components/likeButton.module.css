@@ -1,0 +1,14 @@
+.likeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-14);
+  cursor: pointer;
+}
+
+.likeButton i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-14);
+}
