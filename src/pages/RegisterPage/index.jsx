@@ -9,7 +9,6 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState({ userId: '', password: '', passwordOk: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [registerState, setRegisterState] = useState('');
 
   const navigate = useNavigate();
 
@@ -56,16 +55,18 @@ export default function RegisterPage() {
     };
     setErrors(newErrors);
 
-    if (Object.values(newErrors).some(err => err) || !isFormValid) return;
+    if (Object.values(newErrors).some(err => err) || !isFormValid) {
+      alert('아이디, 비밀번호를 확인하세요.');
+      return;
+    }
 
     try {
-      setRegisterState('등록중');
       await registerUser({ userId: form.userId, password: form.password });
-      setRegisterState('등록완료');
+      alert('회원가입 성공');
       navigate('/login');
     } catch (err) {
-      setRegisterState('회원가입 실패');
       console.error('회원가입 오류', err.response?.data || err);
+      alert('회원가입 실패');
     }
   };
 
@@ -73,7 +74,6 @@ export default function RegisterPage() {
     <main className={css.registerPage}>
       <div className={css.wrapper}>
         <h2>회원가입</h2>
-        {registerState && <strong>{registerState}</strong>}
         <form className={css.registerForm} onSubmit={handleSubmit}>
           {['userId', 'password', 'passwordOk'].map(field => (
             <div className={css.inputGroup} key={field}>
