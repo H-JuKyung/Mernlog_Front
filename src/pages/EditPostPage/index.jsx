@@ -52,6 +52,15 @@ export default function EditPostPage() {
     fetchPost();
   }, [postId, user?.userId, navigate]);
 
+  const handleFileChange = e => {
+    const selectedFiles = e.target.files;
+    setFiles(selectedFiles);
+
+    if (selectedFiles && selectedFiles[0]) {
+      setCurrentImage(URL.createObjectURL(selectedFiles[0]));
+    }
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     if (!title || !summary || !content) {
@@ -85,7 +94,7 @@ export default function EditPostPage() {
 
   return (
     <main className={css.editpost}>
-      <h2>글 수정하기</h2>
+      <h2>게시물 수정</h2>
       {error && <div className={css.error}>{error}</div>}
 
       <form className={css.writecon} onSubmit={handleSubmit}>
@@ -109,18 +118,11 @@ export default function EditPostPage() {
           required
         />
 
-        <input
-          type="file"
-          id="files"
-          accept="image/*"
-          onChange={e => setFiles(e.target.files)}
-          hidden
-        />
-        <label htmlFor="files">파일첨부</label>
+        <input type="file" id="files" accept="image/*" onChange={handleFileChange} hidden />
+        <label htmlFor="files">파일 변경</label>
 
         {currentImage && (
           <>
-            <label>현재 이미지:</label>
             <img src={currentImage} alt="현재 이미지" className={css.previewImage} />
             <p className={css.imageNote}>새 이미지를 업로드하면 기존 이미지는 대체됩니다.</p>
           </>
