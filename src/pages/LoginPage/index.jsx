@@ -1,133 +1,101 @@
 import css from './index.module.css';
-import { useState, useEffect } from 'react';
-import { loginUser } from '@/apis/userApi';
+import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/userSlice';
+import { loginUser } from '@/apis/userApi';
 import KakaoLoginButton from '@/components/KakaoLoginButton';
 
 export default function LoginPage() {
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [errUserId, setErrUserId] = useState('');
-  const [errPassword, setErrPassword] = useState('');
-
+  const [form, setForm] = useState({ userId: '', password: '' });
+  const [errors, setErrors] = useState({ userId: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
-
-  const [loginStatus, setLoginStatus] = useState(''); // 로그인 상태
-  const [redirect, setRedirect] = useState(false); // 로그인 상태 메시지
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const validateUserId = value => {
-    if (!value) {
-      setErrUserId('');
-      return;
+  const validate = useCallback((field, value) => {
+    switch (field) {
+      case 'userId':
+        return !value
+          ? ''
+          : /^[a-zA-Z0-9]{4,}$/.test(value)
+            ? ''
+            : '4자 이상의 영문자 또는 숫자를 입력해주세요.';
+      case 'password':
+        return !value ? '' : value.length < 4 ? '4자 이상 입력해주세요.' : '';
+      default:
+        return '';
     }
-    if (!/^[a-zA-Z0-9]{4,}$/.test(value)) {
-      setErrUserId('4자 이상의 영문자 또는 숫자를 입력해주세요.');
-    } else {
-      setErrUserId('');
-    }
-  };
+  }, []);
 
-  const validatePassword = value => {
-    if (!value) {
-      setErrPassword('');
-      return;
-    }
+  const handleChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setForm(prev => ({ ...prev, [name]: value }));
+      setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
+    },
+    [validate]
+  );
 
-    if (value.length < 4) {
-      setErrPassword('4자 이상 입력해주세요.');
-    } else {
-      setErrPassword('');
-    }
-  };
+  const isFormValid = useMemo(
+    () => Object.values(errors).every(err => !err) && Object.values(form).every(val => val),
+    [errors, form]
+  );
 
-  const handleUserIdChange = e => {
-    const value = e.target.value;
-    setUserId(value);
-    validateUserId(value);
-  };
-
-  const handlePasswordChange = e => {
-    const value = e.target.value;
-    setPassword(value);
-    validatePassword(value);
-  };
-
-  const login = async e => {
+  const handleLogin = async e => {
     e.preventDefault();
-    setLoginStatus('');
-    validateUserId(userId);
-    validatePassword(password);
+    const newErrors = {
+      userId: validate('userId', form.userId),
+      password: validate('password', form.password),
+    };
+    setErrors(newErrors);
 
-    if (errUserId || errPassword || !userId || !password) {
-      setLoginStatus('아이디와 패스워드를 확인하세요.');
+    if (Object.values(newErrors).some(err => err) || !isFormValid) {
+      alert('아이디와 패스워드를 확인하세요.');
       return;
     }
+
     try {
-      const userData = await loginUser({ userId, password });
-
+      const userData = await loginUser(form);
       if (userData) {
-        setLoginStatus('로그인 성공');
-
+        alert('로그인 성공');
         dispatch(setUserInfo(userData));
-
-        setTimeout(() => {
-          setRedirect(true);
-        }, 500);
+        setTimeout(() => navigate('/'), 500);
       } else {
-        setLoginStatus('사용자가 없습니다');
+        alert('사용자가 없습니다');
       }
     } catch (err) {
       console.error('로그인 오류---', err);
-      return;
-    } finally {
-      setLoginStatus(false);
+      alert('로그인 실패');
     }
   };
-
-  useEffect(() => {
-    if (redirect) {
-      navigate('/');
-    }
-  }, [redirect, navigate]);
 
   return (
     <main className={css.loginPage}>
       <div className={css.wrapper}>
         <h2>로그인</h2>
-        {loginStatus && <strong>{loginStatus}</strong>}
-        <form className={css.loginForm} onSubmit={login}>
-          <div className={css.inputGroup}>
-            <div className={css.inputWithIcon}>
-              <input
-                type="text"
-                placeholder="아이디"
-                value={userId}
-                onChange={handleUserIdChange}
-              />
+        <form className={css.loginForm} onSubmit={handleLogin}>
+          {['userId', 'password'].map(field => (
+            <div className={css.inputGroup} key={field}>
+              <div className={css.inputWithIcon}>
+                <input
+                  type={field === 'password' && !showPassword ? 'password' : 'text'}
+                  placeholder={field === 'userId' ? '아이디' : '비밀번호'}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                />
+                {field === 'password' && (
+                  <i
+                    className={`fa-regular ${showPassword ? 'fa-eye-slash' : 'fa-eye'} ${css.eyeIcon}`}
+                    onClick={() => setShowPassword(prev => !prev)}
+                  />
+                )}
+              </div>
+              <strong>{errors[field]}</strong>
             </div>
-            <strong>{errUserId}</strong>
-          </div>
-
-          <div className={css.inputGroup}>
-            <div className={css.inputWithIcon}>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="비밀번호"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              <i
-                className={`fa-regular ${showPassword ? 'fa-eye-slash' : 'fa-eye'} ${css.eyeIcon}`}
-                onClick={() => setShowPassword(prev => !prev)}
-              />
-            </div>
-            <strong>{errPassword}</strong>
-          </div>
+          ))}
 
           <button type="submit">로그인</button>
 
