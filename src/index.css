@@ -114,7 +114,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1507px;
+  max-width: 1200px;
   padding-left: 2rem;
   padding-right: 2rem;
   margin-left: auto;
@@ -134,17 +134,13 @@ body {
 
   .main {
     padding-top: calc(var(--header-height) + 1rem);
+    padding-bottom: var(--header-height);
   }
 }
 
 @media (max-width: 480px) {
   html {
     font-size: 12px;
-  }
-
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 
   .main {

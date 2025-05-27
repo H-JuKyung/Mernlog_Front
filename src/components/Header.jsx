@@ -6,61 +6,63 @@ import { setUserInfo } from '@/store/userSlice';
 import { getUserProfile, logoutUser } from '@/apis/userApi';
 
 export default function Header() {
-  const [isMenuActive, setIsMenuActive] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [scrolled, setScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
   const userId = user?.userId;
-  console.log(userId);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize();
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
-    const getProfile = async () => {
+    const fetchUser = async () => {
       try {
         setIsLoading(true);
         const userData = await getUserProfile();
-        if (userData) {
-          dispatch(setUserInfo(userData));
-        }
-      } catch (err) {
-        console.log(err);
+        dispatch(setUserInfo(userData || ''));
+      } catch {
         dispatch(setUserInfo(''));
       } finally {
         setIsLoading(false);
       }
     };
-    getProfile();
+    fetchUser();
   }, [dispatch]);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
       dispatch(setUserInfo(''));
-      setIsMenuActive(false);
       navigate('/', { replace: true });
-    } catch (err) {
-      console.log('프로필 조회 실패:', err);
-      // 401 에러는 로그인 필요 상태이므로 정상 처리
+    } catch {
       dispatch(setUserInfo(''));
     }
   };
 
-  // 로딩 중일 때는 메뉴 표시하지 않음
+  const handleProtectedClick = path => {
+    if (!userId) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    } else {
+      navigate(path);
+    }
+  };
+
   if (isLoading) {
     return (
-      <header className={css.header}>
+      <header className={`${css.header} ${scrolled ? css.scrolled : ''}`}>
         <div className={`container ${css.headerInner}`}>
           <h1>
             <Link to={'/'}>MERNLOG</Link>
@@ -71,96 +73,69 @@ export default function Header() {
     );
   }
 
-  const toggleMenu = () => {
-    setIsMenuActive(prev => !prev);
-  };
-
-  const closeMenu = () => {
-    setIsMenuActive(false);
-  };
-
-  // 배경 영역(gnbCon)만 클릭 시 닫히도록 하는 핸들러
-  const handleBackgroundClick = e => {
-    // 클릭된 요소가 css.gnbCon 클래스를 가진 요소와 동일할 때만 closeMenu 실행
-    if (e.target === e.currentTarget) {
-      closeMenu();
-    }
-  };
-
-  // gnb 영역 클릭 시 이벤트 전파 중단
-  const handleGnbClick = e => {
-    e.stopPropagation();
-  };
-
   return (
-    <header className={css.header}>
-      <div className={`container ${css.headerInner}`}>
-        <h1>
-          <Link to={'/'}>MERNLOG</Link>
-        </h1>
-        {isMobile ? (
-          <>
-            {!isMenuActive && <Hamburger toggleMenu={toggleMenu} isMenuActive={isMenuActive} />}
-            <nav
-              className={`${css.gnbCon} ${isMenuActive ? css.active : ''}`}
-              onClick={handleBackgroundClick}
-            >
-              <div className={css.gnb} onClick={handleGnbClick}>
-                <button className={css.closeBtn} onClick={closeMenu}>
-                  <i className="fa-solid fa-xmark"></i>
+    <>
+      <header className={`${css.header} ${scrolled ? css.scrolled : ''}`}>
+        <div className={`container ${css.headerInner}`}>
+          <h1>
+            <Link to="/">MERNLOG</Link>
+          </h1>
+          {isMobile ? (
+            <div className={css.mobileTopRight}>
+              {userId ? (
+                <button onClick={handleLogout}>
+                  <i className="fa-solid fa-right-from-bracket"></i>
                 </button>
-                {userId ? (
-                  <>
-                    <MenuLink to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-                    <MenuLink
-                      to={`/userpage/${userId}`}
-                      label={`마이페이지(${userId})`}
-                      closeMenu={closeMenu}
-                    />
-                    <button onClick={handleLogout}>로그아웃</button>
-                  </>
-                ) : (
-                  <>
-                    <MenuLink to="/register" label="회원가입" closeMenu={closeMenu} />
-                    <MenuLink to="/login" label="로그인" closeMenu={closeMenu} />
-                  </>
-                )}
-              </div>
+              ) : (
+                <>
+                  <NavLink to="/register">
+                    <i className="fa-solid fa-user-plus"></i>
+                  </NavLink>
+                  <NavLink to="/login">
+                    <i className="fa-solid fa-right-to-bracket"></i>
+                  </NavLink>
+                </>
+              )}
+            </div>
+          ) : (
+            <nav className={css.desktopMenu}>
+              {userId ? (
+                <>
+                  <MenuLink to="/createPost" icon="fa-solid fa-pen" label="글쓰기" />
+                  <MenuLink to={`/userpage/${userId}`} icon="fa-solid fa-user" label="마이페이지" />
+                  <button onClick={handleLogout}>
+                    <i className="fa-solid fa-right-from-bracket"></i>
+                    로그아웃
+                  </button>
+                </>
+              ) : (
+                <>
+                  <MenuLink to="/register" icon="fa-solid fa-user-plus" label="회원가입" />
+                  <MenuLink to="/login" icon="fa-solid fa-right-to-bracket" label="로그인" />
+                </>
+              )}
             </nav>
-          </>
-        ) : (
-          <div className={css.desktopMenu}>
-            {userId ? (
-              <>
-                <MenuLink to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-                <MenuLink
-                  to={`/userpage/${userId}`}
-                  label={`마이페이지(${userId})`}
-                  closeMenu={closeMenu}
-                />
-                <button onClick={handleLogout}>로그아웃</button>
-              </>
-            ) : (
-              <>
-                <MenuLink to="/register" label="회원가입" closeMenu={closeMenu} />
-                <MenuLink to="/login" label="로그인" closeMenu={closeMenu} />
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    </header>
+          )}
+        </div>
+      </header>
+
+      {isMobile && (
+        <nav className={css.mobileBottomNav}>
+          <button onClick={() => handleProtectedClick('/createPost')}>
+            <i className="fa-solid fa-pen"></i>
+          </button>
+          <button onClick={() => handleProtectedClick(`/userpage/${userId || ''}`)}>
+            <i className="fa-solid fa-user"></i>
+          </button>
+        </nav>
+      )}
+    </>
   );
 }
 
-const MenuLink = ({ to, label, closeMenu }) => (
-  <NavLink to={to} className={({ isActive }) => (isActive ? css.active : '')} onClick={closeMenu}>
+const MenuLink = ({ to, label, icon }) => (
+  <NavLink to={to} className={({ isActive }) => (isActive ? css.active : '')}>
+    {icon && <i className={`${icon}`}></i>}
     {label}
   </NavLink>
-);
-
-const Hamburger = ({ toggleMenu }) => (
-  <button className={css.hamburger} onClick={toggleMenu}>
-    <i className="fa-solid fa-bars"></i>
-  </button>
 );
