@@ -1,76 +1,173 @@
 .createpost {
-  padding: 0 1rem;
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: var(--color-white);
+  border-radius: var(--fs-16);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 .createpost h2 {
-  padding-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: var(--fs-28);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
 }
+
+.error {
+  color: var(--color-error);
+  background-color: #fff2f0;
+  padding: 1rem;
+  border: 1px solid #ffa39e;
+  border-radius: var(--fs-16);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
 .writecon {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
-  justify-content: center;
 }
 
-.writecon > label {
-  width: 120px;
+.writecon label {
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  margin-left: 0.25rem;
+  font-size: var(--fs-20);
+}
+
+.writecon input[type='text'],
+.writecon .editorWrapper {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: var(--fs-16);
+  border: 1px solid var(--color-border);
+  border-radius: var(--fs-12);
+  transition: border-color 0.3s ease;
+}
+
+.writecon input[type='text']:focus,
+.writecon .editorWrapper:focus-within {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.writecon input[type='file'] {
   display: none;
 }
-.writecon > input {
-  padding: 1rem;
-}
-.writecon > :not(label) {
-  /* width: calc(100% - 120px - 1rem); */
-  width: 100%;
-}
-.writecon > textarea {
-  height: 300px;
+
+.writecon label[for='files'] {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--fs-12);
+  cursor: pointer;
+  width: fit-content;
+  font-size: var(--fs-16);
 }
 
-.writecon > p {
-  font-size: 0.75rem;
-  color: red;
-  text-align: right;
-  width: 100%;
+.previewImage {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto 0;
+  display: block;
 }
-.writecon .smallimg {
-  text-align: left;
-  padding-left: 130px;
+
+.fileWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-.writecon .smallimg img {
-  width: 100px;
+
+.fileWrapper .imageNote {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-error);
+}
+
+.imageNote {
+  font-size: var(--fs-14);
+  color: var(--color-error);
+  margin-top: 0.5rem;
+  text-align: center;
 }
 
 .editorWrapper {
-  width: 100%;
-  margin-bottom: 20px;
+  min-height: 300px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--fs-12);
+  padding: 1rem;
+  background-color: var(--gray-50);
 }
 
-/* 버튼 스타일 */
-.writecon button[type='submit'] {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
+.submitButton {
+  padding: 0.75rem 1rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
   border: none;
-  border-radius: 0.5em;
+  border-radius: var(--fs-12);
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.writecon button[type='submit']:hover {
-  background-color: #45a049;
-}
-
-.writecon button[type='submit']:disabled {
-  background-color: #cccccc;
+.submitButton:disabled {
+  background-color: var(--gray-300);
   cursor: not-allowed;
 }
 
-/* 오류 메시지 스타일 */
-.errorMessage {
-  background-color: #ffebee;
-  color: #c62828;
-  padding: 10px;
-  border-radius: 0.5em;
-  margin-bottom: 20px;
+.submitButton:hover:not(:disabled) {
+  background-color: var(--color-primary-darker);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .createpost {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .createpost h2 {
+    font-size: var(--fs-24);
+  }
+
+  .writecon label {
+    font-size: var(--fs-18);
+  }
+
+  .writecon input[type='text'],
+  .writecon .editorWrapper {
+    padding: 0.65rem 0.9rem;
+    font-size: var(--fs-14);
+  }
+
+  .submitButton {
+    padding: 0.65rem 0.9rem;
+    font-size: var(--fs-14);
+  }
+}
+
+@media (max-width: 480px) {
+  .createpost {
+    padding: 1rem;
+    margin: 1.5rem 0.5rem;
+  }
+
+  .createpost h2 {
+    font-size: var(--fs-20);
+  }
+
+  .writecon input[type='text'],
+  .writecon .editorWrapper {
+    font-size: var(--fs-14);
+    padding: 0.6rem 0.8rem;
+  }
+
+  .submitButton {
+    padding: 0.6rem 0.8rem;
+  }
 }

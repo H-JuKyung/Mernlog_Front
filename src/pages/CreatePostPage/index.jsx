@@ -11,24 +11,28 @@ export default function CreatePostPage() {
   const [summary, setSummary] = useState('');
   const [files, setFiles] = useState('');
   const [content, setContent] = useState('');
+  const [currentImage, setCurrentImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const user = useSelector(state => state.user.user);
-  // 사용자 정보가 없으면 로그인 페이지로 리디렉션
+
   useEffect(() => {
-    if (!user || !user.userId) {
+    if (!user?.userId) {
       navigate('/login');
     }
   }, [user, navigate]);
 
-  const handleContentChange = content => {
-    setContent(content);
+  const handleFileChange = e => {
+    const selectedFiles = e.target.files;
+    setFiles(selectedFiles);
+    if (selectedFiles && selectedFiles[0]) {
+      setCurrentImage(URL.createObjectURL(selectedFiles[0]));
+    }
   };
 
   const handleCreatePost = async e => {
     e.preventDefault();
-
     setIsSubmitting(true);
     setError('');
 
@@ -38,27 +42,22 @@ export default function CreatePostPage() {
       return;
     }
 
-    // 백엔드로 전송할 데이터 생성
     const data = new FormData();
     data.set('title', title);
     data.set('summary', summary);
     data.set('content', content);
-
-    if (files[0]) {
+    if (files?.[0]) {
       data.set('files', files[0]);
     }
 
     try {
       await createPost(data);
-      console.log('등록성공');
-
-      setIsSubmitting(false);
       navigate('/');
     } catch (err) {
-      console.log(err);
+      console.error('글 등록 실패:', err);
+      setError(err?.response?.data?.error || '글 등록에 실패했습니다');
     } finally {
       setIsSubmitting(false);
-      setError('');
     }
   };
 
@@ -71,37 +70,38 @@ export default function CreatePostPage() {
         <input
           type="text"
           id="title"
-          name="title"
           placeholder="제목을 입력해주세요"
           value={title}
           onChange={e => setTitle(e.target.value)}
+          required
         />
+
         <label htmlFor="summary">요약내용</label>
         <input
           type="text"
           id="summary"
-          name="summary"
           placeholder="요약내용을 입력해주세요"
           value={summary}
           onChange={e => setSummary(e.target.value)}
+          required
         />
-        <label htmlFor="files">파일</label>
-        <input
-          type="file"
-          id="files"
-          name="files"
-          accept="image/*"
-          onChange={e => setFiles(e.target.files)}
-        />
+
+        <input type="file" id="files" accept="image/*" onChange={handleFileChange} hidden />
+        <div className={css.fileWrapper}>
+          <label htmlFor="files">파일 첨부</label>
+          <p className={css.imageNote}>이미지를 업로드하면 글에 첨부됩니다.</p>
+        </div>
+
+        {currentImage && (
+          <img src={currentImage} alt="선택한 이미지" className={css.previewImage} />
+        )}
+
         <label htmlFor="content">내용</label>
         <div className={css.editorWrapper}>
-          <QuillEditor
-            value={content}
-            onChange={handleContentChange}
-            placeholder="내용을 입력해주세요"
-          />
+          <QuillEditor value={content} onChange={setContent} placeholder="내용을 입력해주세요" />
         </div>
-        <button type="submit" disabled={isSubmitting}>
+
+        <button type="submit" disabled={isSubmitting} className={css.submitButton}>
           {isSubmitting ? '등록중...' : '등록'}
         </button>
       </form>
