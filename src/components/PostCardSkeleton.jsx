@@ -7,6 +7,7 @@ export default function PostCardSkeleton() {
       <div className={css.skeletonContent}>
         <div className={`${css.shimmer} ${css.skeletonTitle}`}></div>
         <div className={`${css.shimmer} ${css.skeletonDescription}`}></div>
+        <div className={`${css.shimmer} ${css.skeletonDate}`}></div>
       </div>
       <div className={css.skeletonInfo}>
         <div className={`${css.shimmer} ${css.skeletonMeta}`}></div>

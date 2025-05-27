@@ -23,9 +23,11 @@ export default function PostCard({ post }) {
       <div className={css.content}>
         <h3 className={css.title}>{post.title}</h3>
         <p className={css.description}>{post.summary}</p>
+        <time className={css.date}>{formatDate(post.createdAt)}</time>
       </div>
       <div className={css.info}>
         <div className={css.meta}>
+          <span className={css.by}>by</span>
           <Link
             to={`/userpage/${post.author}`}
             onClick={handleAuthorLinkClick}
@@ -33,7 +35,6 @@ export default function PostCard({ post }) {
           >
             {post.author}
           </Link>
-          <time className={css.date}>{formatDate(post.createdAt)}</time>
         </div>
         <div className={css.actions}>
           <LikeButton
