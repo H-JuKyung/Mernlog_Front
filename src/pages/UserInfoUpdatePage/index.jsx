@@ -17,7 +17,6 @@ export default function UserInfoUpdate() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 로그인 상태가 아니면 로그인 페이지로 리다이렉트
     if (!user) {
       navigate('/login', { replace: true });
     }
@@ -35,7 +34,6 @@ export default function UserInfoUpdate() {
     e.preventDefault();
     setError(null);
 
-    // 비밀번호 유효성 검사
     if (password) {
       if (password.length < 4) {
         setError('비밀번호는 최소 4자 이상이어야 합니다.');
@@ -51,14 +49,11 @@ export default function UserInfoUpdate() {
     try {
       setLoading(true);
 
-      // 비밀번호 변경 요청
       const userData = {
-        password: password || undefined, // 비밀번호가 비어있으면 undefined로 설정하여 서버에 전송하지 않음
+        password: password || undefined,
       };
 
       await updateUserInfo(userData);
-
-      // 프로필 정보 다시 불러오기
       const updatedProfile = await getUserProfile();
       dispatch(setUserInfo(updatedProfile));
 
@@ -66,13 +61,11 @@ export default function UserInfoUpdate() {
       setPassword('');
       setConfirmPassword('');
 
-      // 3초 후 성공 메시지 숨기기
       setTimeout(() => {
         setSuccess(false);
         navigate(`/userpage/${user.userId}`);
       }, 1000);
     } catch (err) {
-      console.error('사용자 정보 업데이트 실패:', err);
       setError(err.response?.data?.error || '사용자 정보 업데이트에 실패했습니다.');
     } finally {
       setLoading(false);
@@ -83,7 +76,7 @@ export default function UserInfoUpdate() {
     navigate(`/userpage/${user.userId}`);
   };
 
-  if (!user) return null; // 로그인 상태가 아니면 아무것도 렌더링하지 않음
+  if (!user) return null;
 
   return (
     <main className={css.userinfoupdate}>
