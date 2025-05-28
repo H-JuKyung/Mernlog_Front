@@ -1,112 +1,138 @@
 .userpage {
-  padding: 0 1rem;
+  max-width: 1000px;
+  margin: 1rem auto;
+  padding: 2rem;
+  background-color: var(--color-white);
+  border-radius: var(--fs-16);
 }
 
-.userpage h3 {
-  margin-bottom: 0.5rem;
+.userpage h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: var(--fs-28);
+  font-weight: var(--fw-bold);
 }
 
-.userpage section {
-  border-bottom: 1px dotted #ccc;
-  padding: 1.5rem 0;
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  margin-bottom: 1rem;
+  font-size: var(--fs-20);
 }
 
 .userInfo {
-  background-color: #f5f5f5;
+  background-color: var(--gray-100);
   padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  border-radius: var(--fs-12);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border-radius: var(--fs-12);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
 }
 
 .editButton {
-  background-color: #4caf50;
+  background-color: var(--color-primary);
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
 }
 
 .editButton:hover {
-  background-color: #45a049;
+  background-color: var(--color-primary-dark);
 }
 
-.postList,
-.commentList {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.deleteButton {
+  background-color: var(--color-error);
+  color: white;
 }
 
-.postCard,
-.commentCard {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.deleteButton:disabled {
+  background-color: var(--gray-300);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--fs-12);
   padding: 1rem;
+  text-decoration: none;
+  color: var(--color-text);
   transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
-.postCard:hover,
-.commentCard:hover {
+.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.postCard .title {
-  margin-top: 0.5rem;
+.title {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
   margin-bottom: 0.5rem;
-  color: #333;
 }
 
-.postDate,
-.commentMeta {
-  color: #777;
-  font-size: 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
+.date,
+.meta {
+  font-size: var(--fs-12);
+  color: var(--gray-600);
 }
 
-.commentContent {
+.content {
   font-style: italic;
-  background-color: #f9f9f9;
-  padding: 0.5rem;
-  border-left: 3px solid #ddd;
   margin-bottom: 0.5rem;
 }
 
-.userpage img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.likeList {
-  display: flex;
-}
-
-.likeList {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.likeCard a {
-  display: block;
-  width: 50px;
-  height: 50px;
+.likesGrid .card {
+  aspect-ratio: 1/1;
   overflow: hidden;
 }
 
-.likeCard a img {
+.likesGrid .card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .userpage {
+    margin-top: 0rem;
+    padding: 1rem;
+  }
+
+  .editButton,
+  .deleteButton {
+    font-size: var(--fs-14);
+    padding: 0.5rem;
+  }
+
+  .likesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+  }
 }
