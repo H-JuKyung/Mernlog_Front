@@ -79,64 +79,74 @@ export default function UserInfoUpdate() {
   if (!user) return null;
 
   return (
-    <main className={css.userinfoupdate}>
-      <h2>내 정보 수정</h2>
+    <main className={css.userInfoUpdateWrapper}>
+      <h2 className={css.userInfoUpdateTitle}>내 정보 수정</h2>
 
-      <form onSubmit={handleSubmit} className={css.updateForm}>
-        <div className={css.formGroup}>
-          <label htmlFor="userId">사용자 이름</label>
+      <form onSubmit={handleSubmit} className={css.userInfoUpdateForm}>
+        <div className={css.userInfoUpdateFormGroup}>
+          <label htmlFor="userId" className={css.userInfoUpdateLabel}>
+            사용자 이름
+          </label>
           <input
             type="text"
             id="userId"
             value={user.userId || ''}
             disabled
-            className={css.disabledInput}
+            className={css.userInfoUpdateInputDisabled}
           />
-          <p className={css.helperText}>사용자 이름은 변경할 수 없습니다.</p>
+          <p className={css.userInfoUpdateHelper}>사용자 이름은 변경할 수 없습니다.</p>
         </div>
 
-        <div className={css.formGroup}>
-          <label htmlFor="password">새 비밀번호</label>
+        <div className={css.userInfoUpdateFormGroup}>
+          <label htmlFor="password" className={css.userInfoUpdateLabel}>
+            새 비밀번호
+          </label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={handlePasswordChange}
             placeholder="변경할 비밀번호를 입력하세요"
-            className={css.input}
+            className={css.userInfoUpdateInput}
           />
-          <p className={css.helperText}>
+          <p className={css.userInfoUpdateHelper}>
             비밀번호는 최소 4자 이상이어야 합니다. 변경하지 않으려면 비워두세요.
           </p>
         </div>
 
-        <div className={css.formGroup}>
-          <label htmlFor="confirmPassword">비밀번호 확인</label>
+        <div className={css.userInfoUpdateFormGroup}>
+          <label htmlFor="confirmPassword" className={css.userInfoUpdateLabel}>
+            비밀번호 확인
+          </label>
           <input
             type="password"
             id="confirmPassword"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             placeholder="비밀번호 확인"
-            className={css.input}
+            className={css.userInfoUpdateInput}
           />
         </div>
 
-        {error && <div className={css.errorMessage}>{error}</div>}
+        {error && <p className={css.userInfoUpdateError}>{error}</p>}
         {success && (
-          <div className={css.successMessage}>사용자 정보가 성공적으로 업데이트되었습니다.</div>
+          <p className={css.userInfoUpdateSuccess}>정보가 성공적으로 업데이트되었습니다!</p>
         )}
 
-        <div className={css.buttonGroup}>
+        <div className={css.userInfoUpdateButtonGroup}>
           <button
             type="button"
             onClick={handleCancel}
-            className={css.cancelButton}
+            className={`${css.userInfoUpdateButton} ${css.userInfoUpdateCancel}`}
             disabled={loading}
           >
             취소
           </button>
-          <button type="submit" className={css.submitButton} disabled={loading}>
+          <button
+            type="submit"
+            className={`${css.userInfoUpdateButton} ${css.userInfoUpdateSubmit}`}
+            disabled={loading}
+          >
             {loading ? '처리 중...' : '저장'}
           </button>
         </div>
