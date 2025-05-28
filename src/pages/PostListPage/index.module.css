@@ -31,6 +31,12 @@
 }
 
 @media (max-width: 768px) {
+  .postlistpage {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
   .noPostMessage {
     font-size: var(--fs-16);
   }
