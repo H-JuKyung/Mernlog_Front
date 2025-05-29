@@ -1,0 +1,158 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(25, 25, 25, 0.93);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.prevButton,
+.nextButton {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.buttonBackground {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.buttonBackground i {
+  font-size: var(--fs-28);
+  color: #fff;
+  transition: transform 0.3s;
+}
+
+.prevButton:hover .buttonBackground i {
+  transform: translateX(-4px);
+}
+
+.nextButton:hover .buttonBackground i {
+  transform: translateX(4px);
+}
+
+.prevButton {
+  left: 1rem;
+}
+.nextButton {
+  right: 1rem;
+}
+
+.closeButton {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  color: #fff;
+  font-size: 2rem;
+  border: none;
+  cursor: pointer;
+  z-index: 10001;
+  transition: transform 0.3s;
+}
+
+.closeButton:hover {
+  transform: rotate(90deg);
+}
+
+.imageIndex {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  font-size: var(--fs-20);
+  font-weight: var(--fw-medium);
+}
+
+.thumbnailList {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  opacity: 0.6;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  border: 4px solid transparent;
+  transition: transform 0.3s;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+  transform: scale(1.1);
+}
+
+.thumbnail.active {
+  border-color: var(--color-primary-darker);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .buttonBackground i {
+    font-size: var(--fs-20);
+  }
+
+  .buttonBackground {
+    width: 48px;
+    height: 48px;
+  }
+
+  .prevButton:hover .buttonBackground i {
+    transform: translateX(-2px);
+  }
+
+  .nextButton:hover .buttonBackground i {
+    transform: translateX(2px);
+  }
+}
+
+@media (max-width: 480px) {
+  .buttonBackground i {
+    font-size: var(--fs-18);
+  }
+
+  .buttonBackground {
+    width: 36px;
+    height: 36px;
+  }
+
+  .thumbnail {
+    width: 48px;
+    height: 48px;
+  }
+}
