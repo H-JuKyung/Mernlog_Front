@@ -1,7 +1,12 @@
 import { useRef } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import Quill from 'quill';
 import './QuillEditor.css';
+import { AlignClass, AlignStyle } from 'quill/formats/align';
+
+Quill.register(AlignClass, true);
+Quill.register(AlignStyle, true);
 
 export default function QuillEditor({ value, onChange, placeholder }) {
   const quillRef = useRef(null);
@@ -11,8 +16,10 @@ export default function QuillEditor({ value, onChange, placeholder }) {
     toolbar: {
       container: [
         [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
+        [{ font: [] }, { size: [] }],
+        ['bold', 'italic', 'underline', 'strike', { color: [] }, { background: [] }],
         [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ align: [] }],
         ['link', 'image'],
         ['clean'],
       ],

@@ -128,3 +128,16 @@
 .ql-content s {
   text-decoration: line-through;
 }
+
+/* Quill 텍스트 정렬 클래스 스타일 */
+.quill-editor-container .ql-editor .ql-align-center {
+  text-align: center;
+}
+
+.quill-editor-container .ql-editor .ql-align-right {
+  text-align: right;
+}
+
+.quill-editor-container .ql-editor .ql-align-justify {
+  text-align: justify;
+}
