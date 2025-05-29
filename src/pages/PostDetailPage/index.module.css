@@ -1,103 +1,173 @@
-.postdetailpage {
-  padding: 0 1rem;
+.postDetailCard {
+  display: block;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 1.5rem;
 }
 
-.detailimg {
-  text-align: center;
+.postDetailImage {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.postDetailContent {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 5rem;
-  position: relative;
-  background-color: #eaeaea;
 }
 
-.detailimg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-}
-
-.postdetailpage h3 {
-  padding: 1rem 2rem;
-  text-align: center;
-  font-weight: bold;
-  background-color: white;
-  position: relative;
-  z-index: 1;
-}
-
-.info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem;
-  font-size: 0.7rem;
+.postDetailTitle {
+  font-size: var(--fs-32);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
 .summary {
-  background-color: #eaeaea;
-  padding: 1rem;
-  border-radius: 1rem;
-  font-style: italic;
+  font-size: var(--fs-18);
+  color: var(--gray-800);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-weight: var(--fw-light);
+  text-align: center;
 }
 
-.date {
-  color: #999;
-  margin-left: 0.5rem;
-  flex: 1;
+.postDetailInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-16);
+  color: var(--gray-600);
+  padding: 0 1rem 1rem;
 }
 
-.desc {
-  padding: 1rem;
+.postDetailMeta,
+.postDetailActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.authorLink {
+  color: var(--color-primary-dark);
+}
+.authorLink:hover {
+  color: var(--color-primary-darker);
+}
+
+.postDetailActions i {
+  color: var(--color-primary-dark);
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--gray-300);
 }
 
 .content {
+  font-size: var(--fs-16);
+  line-height: 1.6;
+  color: var(--color-text);
   padding: 1rem;
 }
 
 .btns {
-  padding: 1rem 0;
   display: flex;
-  gap: 1rem;
   justify-content: flex-end;
-  border-top: 1px dotted #e3e3e3;
-  border-bottom: 1px dotted #e3e3e3;
+  margin: 1rem;
 }
-
-.btns a,
-.btns span {
-  background-color: lightgray;
-  font-size: 0.75rem;
-  border-radius: 10px;
-  padding: 1rem;
+.btns a {
+  font-size: var(--fs-16);
   cursor: pointer;
-  transition: 0.3s;
+  color: var(--color-text);
 }
-
 .btns a:hover,
-.btns span:hover {
-  background-color: grey;
-  color: white;
+.desktopActions a:hover {
+  font-weight: var(--fw-bold);
+  color: var(--color-primary-darker);
 }
 
-.commentlist {
-  padding: 1rem;
+.desktopActions {
+  display: flex;
+  gap: 0.5rem;
+}
+.desktopActions span {
+  cursor: pointer;
+}
+.desktopActions span:hover {
+  color: var(--color-error);
+  font-weight: var(--fw-bold);
 }
 
-.author {
-  color: dodgerblue;
-  font-weight: bold;
-  padding: 0.25rem 1rem 0.25rem 0;
+.mobileActions {
+  display: none;
+  position: relative;
+}
+.mobileActions i {
+  color: var(--gray-600);
+  font-size: var(--fs-18);
+  padding-left: 0.5rem;
   cursor: pointer;
 }
 
-.author:hover {
-  color: rgb(1, 75, 148);
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 1.5rem;
+  background: var(--color-white);
+  border: 1px solid var(--gray-300);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.author:hover {
-  color: rgb(1, 75, 148);
+.dropdownMenu li {
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  line-height: var(--fs-24);
+}
+.dropdownMenu li:hover {
+  background: #fafafa;
+}
+.dropdownMenu li:nth-child(1) {
+  border-bottom: 1px solid var(--gray-300);
+}
+
+@media (max-width: 768px) {
+  .postDetailTitle {
+    font-size: var(--fs-24);
+  }
+  .postDetailImage {
+    max-height: 250px;
+  }
+  .desktopActions {
+    display: none;
+  }
+  .mobileActions {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .postDetailCard {
+    margin-bottom: 1rem;
+  }
+  .postDetailTitle {
+    font-size: var(--fs-20);
+  }
+  .summary {
+    font-size: var(--fs-16);
+  }
 }
