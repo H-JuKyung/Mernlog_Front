@@ -32,12 +32,17 @@
 
 .content {
   padding: 1rem 1.5rem 0.5rem;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .title {
   font-size: var(--fs-20);
   font-weight: var(--fw-bold);
   color: var(--color-primary-darker);
+  -webkit-line-clamp: 1;
   margin-bottom: 0.5rem;
 }
 
@@ -45,7 +50,7 @@
   font-size: var(--fs-16);
   color: var(--color-text);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,6 +112,21 @@
 
 .actions i {
   color: var(--color-primary-darker);
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0 1rem;
+    height: 80px;
+  }
+
+  .description {
+    margin-bottom: 0.5rem;
+  }
+
+  .date {
+    font-size: var(--fs-14);
+  }
 }
 
 /* 스켈레톤 */
