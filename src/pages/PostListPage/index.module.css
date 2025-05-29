@@ -41,3 +41,9 @@
     font-size: var(--fs-16);
   }
 }
+
+@media (max-width: 480px) {
+  .postlistpage {
+    padding: 0.5rem;
+  }
+}
