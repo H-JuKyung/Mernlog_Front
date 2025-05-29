@@ -12,6 +12,7 @@ import {
 } from '@/apis/userApi';
 import { setUserInfo } from '@/store/userSlice';
 import { formatDate } from '@/utils/features';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function UserPage() {
   const { userId } = useParams();
@@ -69,7 +70,7 @@ export default function UserPage() {
     }
   };
 
-  if (loading) return <div className={css.loading}>로딩 중...</div>;
+  if (loading) return <LoadingSpinner message="사용자 정보를 불러오는 중입니다..." />;
   if (error) return <div className={css.error}>{error}</div>;
   if (!userData) return <div className={css.error}>사용자를 찾을 수 없습니다.</div>;
 

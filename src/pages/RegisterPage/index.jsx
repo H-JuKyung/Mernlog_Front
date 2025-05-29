@@ -74,61 +74,63 @@ export default function RegisterPage() {
     <main className={css.registerPage}>
       <div className={css.wrapper}>
         <h2>회원가입</h2>
-        <form className={css.registerForm} onSubmit={handleSubmit}>
-          {['userId', 'password', 'passwordOk'].map(field => (
-            <div className={css.inputGroup} key={field}>
-              <div className={css.inputWithIcon}>
-                <input
-                  type={
-                    field === 'password'
-                      ? showPassword
-                        ? 'text'
-                        : 'password'
-                      : field === 'passwordOk'
-                        ? showConfirmPassword
-                          ? 'text'
-                          : 'password'
-                        : 'text'
-                  }
-                  placeholder={
-                    field === 'userId'
-                      ? '아이디'
-                      : field === 'password'
-                        ? '비밀번호'
-                        : '비밀번호 확인'
-                  }
-                  name={field}
-                  value={form[field]}
-                  onChange={handleChange}
-                />
-                {field !== 'userId' && (
-                  <i
-                    className={`fa-regular ${
+        <div className={css.registerContainer}>
+          <form className={css.registerForm} onSubmit={handleSubmit}>
+            {['userId', 'password', 'passwordOk'].map(field => (
+              <div className={css.inputGroup} key={field}>
+                <div className={css.inputWithIcon}>
+                  <input
+                    type={
                       field === 'password'
                         ? showPassword
-                          ? 'fa-eye-slash'
-                          : 'fa-eye'
-                        : showConfirmPassword
-                          ? 'fa-eye-slash'
-                          : 'fa-eye'
-                    } ${css.eyeIcon}`}
-                    onClick={() => {
-                      field === 'password'
-                        ? setShowPassword(prev => !prev)
-                        : setShowConfirmPassword(prev => !prev);
-                    }}
+                          ? 'text'
+                          : 'password'
+                        : field === 'passwordOk'
+                          ? showConfirmPassword
+                            ? 'text'
+                            : 'password'
+                          : 'text'
+                    }
+                    placeholder={
+                      field === 'userId'
+                        ? '아이디'
+                        : field === 'password'
+                          ? '비밀번호'
+                          : '비밀번호 확인'
+                    }
+                    name={field}
+                    value={form[field]}
+                    onChange={handleChange}
                   />
-                )}
+                  {field !== 'userId' && (
+                    <i
+                      className={`fa-regular ${
+                        field === 'password'
+                          ? showPassword
+                            ? 'fa-eye-slash'
+                            : 'fa-eye'
+                          : showConfirmPassword
+                            ? 'fa-eye-slash'
+                            : 'fa-eye'
+                      } ${css.eyeIcon}`}
+                      onClick={() => {
+                        field === 'password'
+                          ? setShowPassword(prev => !prev)
+                          : setShowConfirmPassword(prev => !prev);
+                      }}
+                    />
+                  )}
+                </div>
+                <strong>{errors[field]}</strong>
               </div>
-              <strong>{errors[field]}</strong>
-            </div>
-          ))}
-          <button type="submit">가입하기</button>
+            ))}
+            <button type="submit">가입하기</button>
+          </form>
           <div className={css.socialLogin}>
             <p>소셜 계정으로 간편하게 가입하기</p>
             <KakaoLoginButton />
           </div>
-        </form>
+        </div>
       </div>
     </main>
   );

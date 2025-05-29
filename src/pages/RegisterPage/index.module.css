@@ -18,7 +18,7 @@
   font-size: var(--fs-28);
 }
 
-.registerForm {
+.registerContainer {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -119,7 +119,7 @@
     font-size: var(--fs-24);
   }
 
-  .registerForm {
+  .registerContainer {
     padding: 1.5rem;
     max-width: 90%;
   }

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getPostDetail, updatePost } from '@/apis/postApi';
 import QuillEditor from '@/components/QuillEditor';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function EditPostPage() {
   const { postId } = useParams();
@@ -89,7 +90,7 @@ export default function EditPostPage() {
   };
 
   if (isLoading) {
-    return <div className={css.loading}>글 정보를 불러오는 중...</div>;
+    return <LoadingSpinner message="글 정보를 불러오는 중입니다..." />;
   }
 
   return (

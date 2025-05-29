@@ -5,6 +5,7 @@ import { getPostList } from '@/apis/postApi';
 import { useSelector } from 'react-redux';
 import mernlogCharacter from '@/assets/mernlog_character.svg';
 import PostCardSkeleton from '@/components/PostCardSkeleton';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function PostListPage() {
   const [postList, setPostList] = useState([]);
@@ -82,13 +83,7 @@ export default function PostListPage() {
       {error && <p className={css.errorMessage}>{error}</p>}
 
       {isInitialLoading ? (
-        <ul className={css.postList}>
-          {Array.from({ length: 9 }).map((_, i) => (
-            <li key={i}>
-              <PostCardSkeleton />
-            </li>
-          ))}
-        </ul>
+        <LoadingSpinner message="글 목록을 불러오는 중입니다..." />
       ) : postList.length === 0 ? (
         <div className={css.noPostContainer}>
           <img src={mernlogCharacter} alt="No Posts" className={css.noPostImage} />

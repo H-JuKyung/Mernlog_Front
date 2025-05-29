@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import LikeButton from '@/components/LikeButton';
 import Comments from '@/components/Comments';
 import ImageModal from '@/components/ImageModal';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function PostDetailPage() {
   const userId = useSelector(state => state.user.user.userId);
@@ -71,6 +72,8 @@ export default function PostDetailPage() {
     setCurrentIndex(index);
     setIsModalOpen(true);
   };
+
+  if (!postInfo) return <LoadingSpinner message="게시글 정보를 불러오는 중입니다..." />;
 
   const closeModal = () => setIsModalOpen(false);
 

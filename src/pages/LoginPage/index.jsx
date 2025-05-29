@@ -75,35 +75,36 @@ export default function LoginPage() {
     <main className={css.loginPage}>
       <div className={css.wrapper}>
         <h2>로그인</h2>
-        <form className={css.loginForm} onSubmit={handleLogin}>
-          {['userId', 'password'].map(field => (
-            <div className={css.inputGroup} key={field}>
-              <div className={css.inputWithIcon}>
-                <input
-                  type={field === 'password' && !showPassword ? 'password' : 'text'}
-                  placeholder={field === 'userId' ? '아이디' : '비밀번호'}
-                  name={field}
-                  value={form[field]}
-                  onChange={handleChange}
-                />
-                {field === 'password' && (
-                  <i
-                    className={`fa-regular ${showPassword ? 'fa-eye-slash' : 'fa-eye'} ${css.eyeIcon}`}
-                    onClick={() => setShowPassword(prev => !prev)}
+        <div className={css.loginContainer}>
+          <form className={css.loginForm} onSubmit={handleLogin}>
+            {['userId', 'password'].map(field => (
+              <div className={css.inputGroup} key={field}>
+                <div className={css.inputWithIcon}>
+                  <input
+                    type={field === 'password' && !showPassword ? 'password' : 'text'}
+                    placeholder={field === 'userId' ? '아이디' : '비밀번호'}
+                    name={field}
+                    value={form[field]}
+                    onChange={handleChange}
                   />
-                )}
+                  {field === 'password' && (
+                    <i
+                      className={`fa-regular ${showPassword ? 'fa-eye-slash' : 'fa-eye'} ${css.eyeIcon}`}
+                      onClick={() => setShowPassword(prev => !prev)}
+                    />
+                  )}
+                </div>
+                <strong>{errors[field]}</strong>
               </div>
-              <strong>{errors[field]}</strong>
-            </div>
-          ))}
+            ))}
 
-          <button type="submit">로그인</button>
-
+            <button type="submit">로그인</button>
+          </form>
           <div className={css.socialLogin}>
             <p>소셜 계정으로 로그인</p>
             <KakaoLoginButton />
           </div>
-        </form>
+        </div>
       </div>
     </main>
   );
