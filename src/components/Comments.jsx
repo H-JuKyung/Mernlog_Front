@@ -124,11 +124,13 @@ export default function Comments({ postId, onCommentCountChange }) {
 
     return (
       <li key={comment._id} className={css.list}>
-        <div className={css.commnet}>
-          <p className={css.author}>
-            <Link to={`/userpage/${comment.author}`}> {comment.author}</Link>
-          </p>
-          <p className={css.date}>{formatDate(comment.createdAt)}</p>
+        <div className={css.comment}>
+          <div className={css.info}>
+            <p className={css.author}>
+              <Link to={`/userpage/${comment.author}`}> {comment.author}</Link>
+            </p>
+            <p className={css.date}>{formatDate(comment.createdAt)}</p>
+          </div>
 
           {isEditing ? (
             <textarea
@@ -176,10 +178,11 @@ export default function Comments({ postId, onCommentCountChange }) {
           <button type="submit" disabled={isLoading}>
             {isLoading ? '등록 중...' : '댓글 등록'}
           </button>
+          <div className={css.divider}></div>
         </form>
       ) : (
         <p className={css.logMessage}>
-          댓글을 작성하려면 <Link to="/login">로그인이 필요합니다.</Link>
+          댓글을 작성하려면 <Link to="/login">로그인</Link>이 필요합니다.
         </p>
       )}
 
@@ -187,7 +190,7 @@ export default function Comments({ postId, onCommentCountChange }) {
         {comments.length > 0 ? (
           comments.map(renderCommentItem)
         ) : (
-          <li className={css.list}>
+          <li>
             <p className={css.text}>등록된 댓글이 없습니다. 첫 댓글을 작성해보세요!</p>
           </li>
         )}

@@ -1,72 +1,150 @@
+.comments {
+  margin-bottom: 2rem;
+}
+
 .comments form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .comments textarea {
   flex: 1;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 80px;
 }
 
 .comments form button {
+  align-self: flex-end;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  background-color: #eaeaea;
+  border-radius: 0.75rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+  transition: background-color 0.3s ease;
+}
+
+.comments form button:hover {
+  background-color: var(--color-primary-darker);
 }
 
 .list {
-  padding: 0.5rem 0;
-  border-bottom: 1px dotted #ccc;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
 }
 
-.commnet {
-  font-size: 0.75rem;
+.comment {
+  font-size: 0.9rem;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-left: 0.25rem;
 }
 
 .author {
-  color: dodgerblue;
+  color: var(--color-primary-dark);
   font-weight: bold;
   cursor: pointer;
-  padding-right: 0.5rem;
+  font-size: var(--fs-16);
 }
 
 .author:hover {
-  color: rgb(1, 75, 148);
+  color: var(--color-primary-darker);
 }
 
 .date {
-  color: #999;
-  font-size: 0.7rem;
+  color: #666;
 }
 
 .text {
   width: 100%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
 }
 
 .btns {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .btns button {
   cursor: pointer;
-  font-size: 0.7rem;
-  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 0.5rem;
-  background-color: #eaeaea;
+  background-color: var(--gray-100);
+  transition: background-color 0.3s ease;
+}
+
+.btns button:hover {
+  background-color: var(--gray-200);
 }
 
 .logMessage {
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   text-align: center;
-  background-color: #eaeaea;
+  background-color: var(--gray-100);
   margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.logMessage a {
+  text-decoration: underline;
+  transition: all 0.2s;
+}
+
+.logMessage a:hover {
+  font-weight: var(--fw-bold);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--gray-300);
+}
+
+@media (max-width: 480px) {
+  .comments {
+    padding: 0.5rem;
+  }
+
+  .comments textarea {
+    padding: 0.75rem;
+  }
+
+  .comments form button {
+    font-size: var(--fs-14);
+  }
+
+  .author,
+  .date {
+    font-size: var(--fs-14);
+  }
+
+  .btns button {
+    font-size: var(--fs-14);
+    padding: 0.25rem 0.6rem;
+  }
 }
