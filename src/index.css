@@ -177,7 +177,7 @@ img {
 input,
 textarea {
   font-family: inherit;
-  font-size: inherit;
+  font-size: 16px;
   color: inherit;
 }
 
