@@ -157,4 +157,20 @@
     padding: 1.5rem;
     max-width: 90%;
   }
+
+  /* 아이디 입력창 너비 줄이기 */
+  .idInputContainer {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .idInput {
+    flex: 0 1 60%; /* 너비 비율을 줄여서 버튼 공간 확보 */
+  }
+
+  .duplicateCheckButton {
+    flex: 0 1 35%; /* 버튼 크기 조절 */
+    font-size: var(--fs-12); /* 버튼 글자 크기 줄임 */
+    padding: 0.5rem 0.3rem; /* 버튼 패딩 조절 */
+  }
 }
