@@ -118,7 +118,7 @@ export default function PostDetailPage() {
             {postInfo?.author}
           </Link>
           <span>|</span>
-          <span>{formatDate(postInfo?.updatedAt)}</span>
+          <span>{formatDate(postInfo?.createdAt)}</span>
         </div>
 
         <div className={css.postDetailActions}>
