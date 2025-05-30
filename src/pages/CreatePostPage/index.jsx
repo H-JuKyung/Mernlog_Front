@@ -36,9 +36,9 @@ export default function CreatePostPage() {
     setIsSubmitting(true);
     setError('');
 
-    if (!title || !summary || !content) {
+    if (!title || !summary || !content || !files?.[0]) {
       setIsSubmitting(false);
-      setError('모든 필드를 입력해주세요');
+      setError('제목, 요약, 파일, 내용을 모두 입력해주세요');
       return;
     }
 
@@ -46,9 +46,7 @@ export default function CreatePostPage() {
     data.set('title', title);
     data.set('summary', summary);
     data.set('content', content);
-    if (files?.[0]) {
-      data.set('files', files[0]);
-    }
+    data.set('files', files[0]);
 
     try {
       await createPost(data);
