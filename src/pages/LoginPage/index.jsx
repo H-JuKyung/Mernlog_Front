@@ -18,12 +18,16 @@ export default function LoginPage() {
     switch (field) {
       case 'userId':
         return !value
-          ? ''
-          : /^[a-zA-Z0-9]{4,}$/.test(value)
+          ? '아이디를 입력해주세요.'
+          : /^[a-zA-Z0-9]{4,20}$/.test(value)
             ? ''
-            : '4자 이상의 영문자 또는 숫자를 입력해주세요.';
+            : '아이디는 4~20자의 영문자와 숫자로 입력해주세요.';
       case 'password':
-        return !value ? '' : value.length < 4 ? '4자 이상 입력해주세요.' : '';
+        return !value
+          ? '비밀번호를 입력해주세요.'
+          : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,}$/.test(value)
+            ? ''
+            : '비밀번호는 8자 이상, 영문자, 숫자, 특수문자를 모두 포함해주세요.';
       default:
         return '';
     }
@@ -52,7 +56,7 @@ export default function LoginPage() {
     setErrors(newErrors);
 
     if (Object.values(newErrors).some(err => err) || !isFormValid) {
-      alert('아이디와 패스워드를 확인하세요.');
+      alert('아이디와 비밀번호를 확인하세요.');
       return;
     }
 

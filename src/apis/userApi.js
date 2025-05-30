@@ -7,6 +7,18 @@ export const registerUser = async userData => {
   return response.data;
 };
 
+export const checkUserIdDuplicate = async userId => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/check-duplicate`, {
+      params: { userId },
+    });
+    return response.data.isAvailable;
+  } catch (err) {
+    console.error('아이디 중복 확인 실패:', err);
+    throw err;
+  }
+};
+
 export const loginUser = async credentials => {
   const response = await axios.post(`${API_URL}/auth/login`, credentials);
   return response.data;

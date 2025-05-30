@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import css from './index.module.css';
-import { registerUser } from '@/apis/userApi';
+import { registerUser, checkUserIdDuplicate } from '@/apis/userApi';
 import KakaoLoginButton from '@/components/KakaoLoginButton';
 
 export default function RegisterPage() {
@@ -9,6 +9,8 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState({ userId: '', password: '', passwordOk: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isUserIdAvailable, setIsUserIdAvailable] = useState(null);
+  const [checkingUserId, setCheckingUserId] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,14 +19,22 @@ export default function RegisterPage() {
       switch (field) {
         case 'userId':
           return !value
-            ? ''
-            : /^[a-zA-Z0-9]{4,}$/.test(value)
+            ? '아이디를 입력해주세요.'
+            : /^[a-zA-Z0-9]{4,20}$/.test(value)
               ? ''
-              : '4자 이상의 영문자 또는 숫자를 입력해주세요.';
+              : '아이디는 4~20자의 영문자와 숫자로 입력해주세요.';
         case 'password':
-          return !value ? '' : value.length < 4 ? '4자 이상 입력해주세요.' : '';
+          return !value
+            ? '비밀번호를 입력해주세요.'
+            : /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,}$/.test(value)
+              ? ''
+              : '비밀번호는 8자 이상, 영문자, 숫자, 특수문자를 모두 포함해주세요.';
         case 'passwordOk':
-          return !value ? '' : value !== formValues.password ? '패스워드가 일치하지 않습니다.' : '';
+          return !value
+            ? '비밀번호 확인을 입력해주세요.'
+            : value !== formValues.password
+              ? '비밀번호가 일치하지 않습니다.'
+              : '';
         default:
           return '';
       }
@@ -37,13 +47,34 @@ export default function RegisterPage() {
       const { name, value } = e.target;
       setForm(prev => ({ ...prev, [name]: value }));
       setErrors(prev => ({ ...prev, [name]: validate(name, value, { ...form, [name]: value }) }));
+      if (name === 'userId') setIsUserIdAvailable(null);
     },
     [validate, form]
   );
 
+  const handleCheckUserId = async () => {
+    if (!form.userId || errors.userId) {
+      alert('유효한 아이디를 입력해주세요.');
+      return;
+    }
+    try {
+      setCheckingUserId(true);
+      const available = await checkUserIdDuplicate(form.userId);
+      setIsUserIdAvailable(available);
+    } catch (err) {
+      console.error('중복 확인 실패:', err);
+      alert('중복 확인 실패');
+    } finally {
+      setCheckingUserId(false);
+    }
+  };
+
   const isFormValid = useMemo(
-    () => Object.values(errors).every(error => !error) && Object.values(form).every(value => value),
-    [errors, form]
+    () =>
+      Object.values(errors).every(error => !error) &&
+      Object.values(form).every(value => value) &&
+      isUserIdAvailable === true,
+    [errors, form, isUserIdAvailable]
   );
 
   const handleSubmit = async e => {
@@ -76,7 +107,33 @@ export default function RegisterPage() {
         <h2>회원가입</h2>
         <div className={css.registerContainer}>
           <form className={css.registerForm} onSubmit={handleSubmit}>
-            {['userId', 'password', 'passwordOk'].map(field => (
+            <div className={css.inputGroup}>
+              <div className={css.idInputContainer}>
+                <input
+                  type="text"
+                  placeholder="아이디"
+                  name="userId"
+                  className={css.idInput}
+                  value={form.userId}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className={css.duplicateCheckButton}
+                  onClick={handleCheckUserId}
+                  disabled={checkingUserId}
+                >
+                  {checkingUserId ? '확인 중...' : '중복 확인'}
+                </button>
+              </div>
+              {isUserIdAvailable === true && (
+                <strong style={{ color: '#74d69e' }}>사용 가능합니다.</strong>
+              )}
+              {isUserIdAvailable === false && <strong>이미 존재하는 아이디입니다.</strong>}
+              <strong>{errors.userId}</strong>
+            </div>
+
+            {['password', 'passwordOk'].map(field => (
               <div className={css.inputGroup} key={field}>
                 <div className={css.inputWithIcon}>
                   <input
@@ -85,46 +142,39 @@ export default function RegisterPage() {
                         ? showPassword
                           ? 'text'
                           : 'password'
-                        : field === 'passwordOk'
-                          ? showConfirmPassword
-                            ? 'text'
-                            : 'password'
-                          : 'text'
+                        : showConfirmPassword
+                          ? 'text'
+                          : 'password'
                     }
-                    placeholder={
-                      field === 'userId'
-                        ? '아이디'
-                        : field === 'password'
-                          ? '비밀번호'
-                          : '비밀번호 확인'
-                    }
+                    placeholder={field === 'password' ? '비밀번호' : '비밀번호 확인'}
                     name={field}
                     value={form[field]}
                     onChange={handleChange}
                   />
-                  {field !== 'userId' && (
-                    <i
-                      className={`fa-regular ${
-                        field === 'password'
-                          ? showPassword
-                            ? 'fa-eye-slash'
-                            : 'fa-eye'
-                          : showConfirmPassword
-                            ? 'fa-eye-slash'
-                            : 'fa-eye'
-                      } ${css.eyeIcon}`}
-                      onClick={() => {
-                        field === 'password'
-                          ? setShowPassword(prev => !prev)
-                          : setShowConfirmPassword(prev => !prev);
-                      }}
-                    />
-                  )}
+                  <i
+                    className={`fa-regular ${
+                      field === 'password'
+                        ? showPassword
+                          ? 'fa-eye-slash'
+                          : 'fa-eye'
+                        : showConfirmPassword
+                          ? 'fa-eye-slash'
+                          : 'fa-eye'
+                    } ${css.eyeIcon}`}
+                    onClick={() =>
+                      field === 'password'
+                        ? setShowPassword(prev => !prev)
+                        : setShowConfirmPassword(prev => !prev)
+                    }
+                  />
                 </div>
                 <strong>{errors[field]}</strong>
               </div>
             ))}
-            <button type="submit">가입하기</button>
+
+            <button type="submit" className={css.submitBtn}>
+              가입하기
+            </button>
           </form>
           <div className={css.socialLogin}>
             <p>소셜 계정으로 간편하게 가입하기</p>

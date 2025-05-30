@@ -31,6 +31,40 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
+.idInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.idInput {
+  flex: 1;
+  padding: 1rem;
+  font-size: var(--fs-16);
+  border-radius: var(--fs-8);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s;
+}
+
+.idInput:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.duplicateCheckButton {
+  padding: 1rem;
+  font-size: var(--fs-14);
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+  border-radius: var(--fs-8);
+  transition: background-color 0.3s ease;
+}
+
+.duplicateCheckButton:hover {
+  background-color: var(--color-primary-darker);
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -44,7 +78,7 @@
 }
 
 .inputWithIcon input,
-.registerForm button {
+.submitBtn {
   width: 100%;
   padding: 1rem;
   font-size: var(--fs-16);
@@ -78,12 +112,12 @@
 }
 
 .registerForm strong {
-  font-size: 0.875rem;
+  font-size: var(--fs-12);
   color: var(--color-error);
   padding: 0.25rem;
 }
 
-.registerForm button {
+.submitBtn {
   margin-top: 1rem;
   background-color: var(--color-primary-dark);
   color: var(--color-white);
@@ -92,7 +126,7 @@
   cursor: pointer;
 }
 
-.registerForm button:hover {
+.submitBtn:hover {
   background-color: var(--color-primary-darker);
 }
 
